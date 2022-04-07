@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.code;
+package solutions.thex.smoothy.code.java;
 
 import java.io.IOException;
 import java.nio.file.Files;
