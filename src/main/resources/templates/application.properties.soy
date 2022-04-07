@@ -1,0 +1,11 @@
+{namespace website.smoothy.generator}
+{template properties kind="text"}
+
+{@param name: string}
+{@param port: string}
+
+{literal}spring.application.name={/literal}{$name}{literal}
+server.port={/literal}{$port}{literal}
+server.compression.enabled=true
+server.http2.enabled=true{/literal}
+{/template}
