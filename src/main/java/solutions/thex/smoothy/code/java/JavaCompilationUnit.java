@@ -7,6 +7,7 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.Getter;
+import solutions.thex.smoothy.code.java.declaration.JavaTypeDeclaration;
 
 /**
  * A Java-compilation unit that represents an individual source file.

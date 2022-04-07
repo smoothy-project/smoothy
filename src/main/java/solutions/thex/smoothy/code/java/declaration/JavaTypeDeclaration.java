@@ -1,8 +1,9 @@
-package solutions.thex.smoothy.code.java;
+package solutions.thex.smoothy.code.java.declaration;
 
 import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.Data;
+import solutions.thex.smoothy.code.java.*;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.code.java;
+package solutions.thex.smoothy.code.java.declaration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,6 +8,10 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.Data;
+import solutions.thex.smoothy.code.java.Annotatable;
+import solutions.thex.smoothy.code.java.Annotation;
+import solutions.thex.smoothy.code.java.JavaStatement;
+import solutions.thex.smoothy.code.java.Parameter;
 
 /**
  * Declaration of a method written in Java.
