@@ -1,5 +1,6 @@
 {namespace website.smoothy.generator}
 {template pom kind="text"}
+
 {@param java: string}
 {@param spring: string}
 {@param name: string}
@@ -13,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>${spring.version}</version>
+		<version>{/literal}{$spring}{literal}</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -27,7 +28,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>{/literal}{$java}{literal}</java.version>
-		<spring.version>{/literal}{$spring}{literal}</spring.version>
 		<spring-boot-admin.version>2.6.2</spring-boot-admin.version>
 	</properties>
 
