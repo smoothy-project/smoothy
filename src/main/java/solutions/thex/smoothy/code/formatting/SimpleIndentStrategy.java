@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.code.java.formatting;
+package solutions.thex.smoothy.code.formatting;
 
 import org.springframework.util.Assert;
 

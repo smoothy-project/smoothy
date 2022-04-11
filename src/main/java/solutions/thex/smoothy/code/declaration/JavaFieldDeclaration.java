@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.code.java.declaration;
+package solutions.thex.smoothy.code.declaration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Builder.Default;
-import solutions.thex.smoothy.code.java.Annotatable;
-import solutions.thex.smoothy.code.java.Annotation;
+import solutions.thex.smoothy.code.Annotatable;
+import solutions.thex.smoothy.code.Annotation;
 
 /**
  * Declaration of a field written in Java.

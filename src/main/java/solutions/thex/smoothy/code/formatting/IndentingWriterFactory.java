@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.code.java.formatting;
+package solutions.thex.smoothy.code.formatting;
 
 import java.io.Writer;
 import java.util.HashMap;

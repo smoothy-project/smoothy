@@ -1,10 +1,10 @@
-package solutions.thex.smoothy.code.java.expression;
+package solutions.thex.smoothy.code.expression;
 
 import java.util.List;
 
 import lombok.Builder;
 import lombok.Getter;
-import solutions.thex.smoothy.code.java.JavaExpression;
+import solutions.thex.smoothy.code.JavaExpression;
 
 /**
  * An invocation of a method.

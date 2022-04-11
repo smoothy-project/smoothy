@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.code.java;
+package solutions.thex.smoothy.code;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,7 +7,7 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.Getter;
-import solutions.thex.smoothy.code.java.declaration.JavaTypeDeclaration;
+import solutions.thex.smoothy.code.declaration.JavaTypeDeclaration;
 
 /**
  * A Java-compilation unit that represents an individual source file.

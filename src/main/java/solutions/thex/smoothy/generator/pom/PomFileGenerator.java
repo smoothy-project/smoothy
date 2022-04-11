@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.code.properties;
+package solutions.thex.smoothy.generator.pom;
 
 import lombok.Builder;
 import org.apache.commons.io.FileUtils;
@@ -11,25 +11,27 @@ import java.util.Map;
 import java.util.Objects;
 
 @Builder
-public class ApplicationPropertiesFileGenerator implements ISoyConfiguration {
+public class PomFileGenerator implements ISoyConfiguration {
 
+    private String javaVersion;
+    private String springVersion;
     private String name;
-    private String port;
+    private String description;
     private Path rootDirectory;
 
     @Override
     public String getName() {
-        return "website.smoothy.generator.properties";
+        return "website.smoothy.generator.pom";
     }
 
     @Override
     public File getFile() throws IOException {
-        File tempFile = File.createTempFile("application.properties", ".soy");
+        File tempFile = File.createTempFile("pom.xml", ".soy");
         tempFile.deleteOnExit();
 
         FileUtils.copyInputStreamToFile(//
                 Objects.requireNonNull(//
-                        getClass().getClassLoader().getResourceAsStream("templates/application.properties.soy")), tempFile);
+                        getClass().getClassLoader().getResourceAsStream("templates/pom.xml.soy")), tempFile);
 
         return tempFile;
     }
@@ -37,13 +39,15 @@ public class ApplicationPropertiesFileGenerator implements ISoyConfiguration {
     @Override
     public Map<String, Object> getParameters() {
         return Map.of(//
+                "java", javaVersion,//
+                "spring", springVersion,//
                 "name", name,//
-                "port", port);
+                "description", description);
     }
 
     @Override
     public Path getPath() throws IOException {
-        return rootDirectory.resolve("src/main/resources/application.properties");
+        return rootDirectory.resolve("pom.xml");
     }
 
 }

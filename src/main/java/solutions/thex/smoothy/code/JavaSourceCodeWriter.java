@@ -1,13 +1,13 @@
-package solutions.thex.smoothy.code.java;
+package solutions.thex.smoothy.code;
 
-import solutions.thex.smoothy.code.java.formatting.IndentingWriter;
-import solutions.thex.smoothy.code.java.formatting.IndentingWriterFactory;
-import solutions.thex.smoothy.code.java.declaration.JavaFieldDeclaration;
-import solutions.thex.smoothy.code.java.declaration.JavaMethodDeclaration;
-import solutions.thex.smoothy.code.java.declaration.JavaTypeDeclaration;
-import solutions.thex.smoothy.code.java.expression.JavaMethodInvocation;
-import solutions.thex.smoothy.code.java.statement.JavaExpressionStatement;
-import solutions.thex.smoothy.code.java.statement.JavaReturnStatement;
+import solutions.thex.smoothy.code.formatting.IndentingWriter;
+import solutions.thex.smoothy.code.formatting.IndentingWriterFactory;
+import solutions.thex.smoothy.code.declaration.JavaFieldDeclaration;
+import solutions.thex.smoothy.code.declaration.JavaMethodDeclaration;
+import solutions.thex.smoothy.code.declaration.JavaTypeDeclaration;
+import solutions.thex.smoothy.code.expression.JavaMethodInvocation;
+import solutions.thex.smoothy.code.statement.JavaExpressionStatement;
+import solutions.thex.smoothy.code.statement.JavaReturnStatement;
 
 import java.io.IOException;
 import java.lang.reflect.Modifier;
