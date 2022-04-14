@@ -30,8 +30,8 @@ public interface ISoyConfiguration {
      */
     Path getPath() throws IOException;
 
-    default void generate() throws IOException {
-        SoyTemplateGenerator.generate(this);
+    default String render() throws IOException {
+        return SoyTemplateGenerator.render(this);
     }
 
 }
