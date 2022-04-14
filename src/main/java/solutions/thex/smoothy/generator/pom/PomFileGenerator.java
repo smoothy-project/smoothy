@@ -17,7 +17,6 @@ public class PomFileGenerator implements ISoyConfiguration {
     private String springVersion;
     private String name;
     private String description;
-    private Path rootDirectory;
 
     @Override
     public String getName() {
@@ -47,7 +46,7 @@ public class PomFileGenerator implements ISoyConfiguration {
 
     @Override
     public Path getPath() throws IOException {
-        return rootDirectory.resolve("pom.xml");
+        return Path.of("pom.xml");
     }
 
 }

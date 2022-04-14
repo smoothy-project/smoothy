@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.generator.properties;
+package solutions.thex.smoothy.generator.main.src.resources.properties;
 
 import lombok.Builder;
 import org.apache.commons.io.FileUtils;
@@ -15,7 +15,6 @@ public class ApplicationPropertiesFileGenerator implements ISoyConfiguration {
 
     private String name;
     private String port;
-    private Path rootDirectory;
 
     @Override
     public String getName() {
@@ -43,7 +42,7 @@ public class ApplicationPropertiesFileGenerator implements ISoyConfiguration {
 
     @Override
     public Path getPath() throws IOException {
-        return rootDirectory.resolve("src/main/resources/application.properties");
+        return Path.of("src/main/resources/application.properties");
     }
 
 }
