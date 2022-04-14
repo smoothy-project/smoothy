@@ -20,19 +20,15 @@ import solutions.thex.smoothy.code.Parameter;
 @Data
 public final class JavaMethodDeclaration implements Annotatable {
 
+	@Default
 	private final List<Annotation> annotations = new ArrayList<>();
-
-	private final String name;
-
-	private final String returnType;
-
-	private final int modifiers;
-
 	@Default
 	private final List<Parameter> parameters = new LinkedList<>();
-
 	@Default
 	private final List<JavaStatement> statements = new LinkedList<>();
+	private final String name;
+	private final String returnType;
+	private final int modifiers;
 
 	@Override
 	public void annotate(Annotation annotation) {

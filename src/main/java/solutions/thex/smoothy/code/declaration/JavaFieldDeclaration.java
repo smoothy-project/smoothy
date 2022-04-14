@@ -18,19 +18,15 @@ public final class JavaFieldDeclaration implements Annotatable {
 
 	@Default
 	private final List<Annotation> annotations = new ArrayList<>();
-
 	private final int modifiers;
-
 	private final String name;
-
 	private final String type;
-
 	private final Object value;
-
 	private final boolean initialized;
 
 	@Override
 	public void annotate(Annotation annotation) {
 		this.annotations.add(annotation);
 	}
+
 }
