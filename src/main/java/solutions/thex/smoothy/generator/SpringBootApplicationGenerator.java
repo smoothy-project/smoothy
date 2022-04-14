@@ -1,66 +1,74 @@
 package solutions.thex.smoothy.generator;
 
-import lombok.Builder;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import solutions.thex.smoothy.code.JavaCompilationUnit;
 import solutions.thex.smoothy.code.JavaSourceCode;
 import solutions.thex.smoothy.code.JavaSourceCodeWriter;
-import solutions.thex.smoothy.code.SourceStructure;
-import solutions.thex.smoothy.generator.java.MainClassGenerator;
+import solutions.thex.smoothy.generator.main.src.java.MainClassGenerator;
+import solutions.thex.smoothy.generator.main.src.java.SecurityConfigGenerator;
+import solutions.thex.smoothy.generator.main.src.resources.properties.ApplicationPropertiesFileGenerator;
+import solutions.thex.smoothy.generator.main.test.MainClassTestsGenerator;
 import solutions.thex.smoothy.generator.pom.PomFileGenerator;
-import solutions.thex.smoothy.generator.properties.ApplicationPropertiesFileGenerator;
+import solutions.thex.smoothy.soy.ISoyConfiguration;
 
 import java.io.IOException;
-import java.nio.file.Path;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder
+@Service
 public class SpringBootApplicationGenerator {
 
-    private final List<JavaCompilationUnit> compilationUnits = new ArrayList<>();
-    private Path generationRootDirectory;
-    private JavaSourceCodeWriter sourceWriter;
-    private JSONObject application;
+    private final JavaSourceCodeWriter sourceWriter;
 
-    public boolean generate() throws IOException {
-        generateCompilationUnits();
-        generateApplicationPropertiesFile();
-        generatePomFile();
-
-        writeSourceCode();
-        return true;
+    @Autowired
+    public SpringBootApplicationGenerator(JavaSourceCodeWriter sourceWriter) {
+        this.sourceWriter = sourceWriter;
     }
 
-    private void writeSourceCode() throws IOException {
+    public void generate(JSONObject application, OutputStream out) throws IOException {
         sourceWriter.writeTo(//
-                new SourceStructure(//
-                        generationRootDirectory.resolve(application.getString("name")).resolve("src/main/")),
                 JavaSourceCode.builder()//
-                        .compilationUnits(compilationUnits)//
-                        .build());
+                        .compilationUnits(generateCompilationUnits(application))//
+                        .testCompilationUnits(generateTestCompilationUnits(application))//
+                        .staticCompilationUnits(generateStaticUnits(application))//
+                        .build(), out);
     }
 
-    private void generateCompilationUnits() {
+    private List<JavaCompilationUnit> generateCompilationUnits(JSONObject application) {
+        List<JavaCompilationUnit> compilationUnits = new ArrayList<>();
         compilationUnits.add(MainClassGenerator.generate(application.getString("name")));
+        compilationUnits.addAll(SecurityConfigGenerator.generate(application.getString("name")));
+        return compilationUnits;
     }
 
-    private void generateApplicationPropertiesFile() throws IOException {
-        ApplicationPropertiesFileGenerator.builder()//
+    private List<JavaCompilationUnit> generateTestCompilationUnits(JSONObject application) {
+        return List.of(//
+                MainClassTestsGenerator.generate(application.getString("name")));
+    }
+
+    private List<ISoyConfiguration> generateStaticUnits(JSONObject application) throws IOException {
+        return List.of(//
+                generateApplicationPropertiesFile(application),//
+                generatePomFile(application));
+    }
+
+    private ISoyConfiguration generateApplicationPropertiesFile(JSONObject application) throws IOException {
+        return ApplicationPropertiesFileGenerator.builder()//
                 .name(application.getString("name"))//
                 .port(application.getString("port"))//
-                .rootDirectory(generationRootDirectory.resolve(application.getString("name")))//
-                .build().generate();
+                .build();
     }
 
-    private void generatePomFile() throws IOException {
-        PomFileGenerator.builder()//
+    private ISoyConfiguration generatePomFile(JSONObject application) throws IOException {
+        return PomFileGenerator.builder()//
                 .javaVersion(application.has("javaVersion") ? application.getString("javaVersion") : "18")//
                 .springVersion(application.has("springVersion") ? application.getString("springVersion") : "2.6.6")//
                 .name(application.getString("name"))//
                 .description(application.getString("description"))//
-                .rootDirectory(generationRootDirectory.resolve(application.getString("name")))//
-                .build().generate();
+                .build();
     }
 
 }
