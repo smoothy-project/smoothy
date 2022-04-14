@@ -1,24 +1,25 @@
 package solutions.thex.smoothy.code;
 
-import solutions.thex.smoothy.code.formatting.IndentingWriter;
-import solutions.thex.smoothy.code.formatting.IndentingWriterFactory;
 import solutions.thex.smoothy.code.declaration.JavaFieldDeclaration;
 import solutions.thex.smoothy.code.declaration.JavaMethodDeclaration;
 import solutions.thex.smoothy.code.declaration.JavaTypeDeclaration;
 import solutions.thex.smoothy.code.expression.JavaMethodInvocation;
+import solutions.thex.smoothy.code.formatting.IndentingWriter;
+import solutions.thex.smoothy.code.formatting.IndentingWriterFactory;
 import solutions.thex.smoothy.code.statement.JavaExpressionStatement;
 import solutions.thex.smoothy.code.statement.JavaReturnStatement;
+import solutions.thex.smoothy.soy.ISoyConfiguration;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Modifier;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
 
 /**
  * A SourceCodeWriter that writes SourceCode in Java.
@@ -26,9 +27,7 @@ import java.util.stream.Stream;
 public class JavaSourceCodeWriter {
 
     private static final Map<Predicate<Integer>, String> TYPE_MODIFIERS;
-
     private static final Map<Predicate<Integer>, String> FIELD_MODIFIERS;
-
     private static final Map<Predicate<Integer>, String> METHOD_MODIFIERS;
 
     static {
@@ -56,60 +55,88 @@ public class JavaSourceCodeWriter {
         METHOD_MODIFIERS = methodModifiers;
     }
 
+    private final String sourceFileExtension;
+    private final String sourcesDirectory;
+    private final String testsDirectory;
     private final IndentingWriterFactory indentingWriterFactory;
 
     public JavaSourceCodeWriter(IndentingWriterFactory indentingWriterFactory) {
         this.indentingWriterFactory = indentingWriterFactory;
+        this.sourceFileExtension = "java";
+        this.sourcesDirectory = "src/main/java";
+        this.testsDirectory = "src/test/java";
     }
 
-    public void writeTo(SourceStructure structure, JavaSourceCode sourceCode) throws IOException {
-        for (JavaCompilationUnit compilationUnit : sourceCode.getCompilationUnits()) {
-            writeTo(structure, compilationUnit);
+    public void writeTo(JavaSourceCode sourceCode, OutputStream out) throws IOException {
+        try (IndentingWriter writer = this.indentingWriterFactory.createIndentingWriter("java", out)) {
+            for (JavaCompilationUnit compilationUnit : sourceCode.getCompilationUnits()) {
+                writer.putNextEntry(new ZipEntry(resolveFileName(compilationUnit, this.sourcesDirectory)));
+                writeTo(compilationUnit, writer);
+                writer.closeEntry();
+            }
+            for (JavaCompilationUnit compilationUnit : sourceCode.getTestCompilationUnits()) {
+                writer.putNextEntry(new ZipEntry(resolveFileName(compilationUnit, this.testsDirectory)));
+                writeTo(compilationUnit, writer);
+                writer.closeEntry();
+            }
+            for (ISoyConfiguration staticUnit : sourceCode.getStaticCompilationUnits()) {
+                writer.putNextEntry(new ZipEntry(staticUnit.getPath().toString()));
+                writer.println(staticUnit.render());
+                writer.closeEntry();
+            }
         }
     }
 
-    private void writeTo(SourceStructure structure, JavaCompilationUnit compilationUnit) throws IOException {
-        Path output = structure.createSourceFile(compilationUnit.getPackageName(), compilationUnit.getName());
-        Files.createDirectories(output.getParent());
-        try (IndentingWriter writer = this.indentingWriterFactory.createIndentingWriter("java",
-                Files.newBufferedWriter(output))) {
-            writer.println("package " + compilationUnit.getPackageName() + ";");
+    private void writeTo(JavaCompilationUnit compilationUnit, IndentingWriter writer) throws IOException {
+        writer.println("package " + compilationUnit.getPackageName() + ";");
+        writer.println();
+        Set<String> imports = determineImports(compilationUnit);
+        if (!imports.isEmpty()) {
+            for (String importedType : imports) {
+                writer.println("import " + importedType + ";");
+            }
             writer.println();
-            Set<String> imports = determineImports(compilationUnit);
-            if (!imports.isEmpty()) {
-                for (String importedType : imports) {
-                    writer.println("import " + importedType + ";");
-                }
-                writer.println();
-            }
-            for (JavaTypeDeclaration type : compilationUnit.getTypeDeclarations()) {
-                writeAnnotations(writer, type);
-                writeModifiers(writer, TYPE_MODIFIERS, type.getModifiers());
-                writer.print(type.getType() + " " + type.getName());
-                if (type.getExtendedClassName() != null) {
-                    writer.print(" extends " + getUnqualifiedName(type.getExtendedClassName()));
-                }
-                writer.println(" {");
-                writer.println();
-                List<JavaFieldDeclaration> fieldDeclarations = type.getFieldDeclarations();
-                if (!fieldDeclarations.isEmpty()) {
-                    writer.indented(() -> {
-                        for (JavaFieldDeclaration fieldDeclaration : fieldDeclarations) {
-                            writeFieldDeclaration(writer, fieldDeclaration);
-                        }
-                    });
-                }
-                List<JavaMethodDeclaration> methodDeclarations = type.getMethodDeclarations();
-                if (!methodDeclarations.isEmpty()) {
-                    writer.indented(() -> {
-                        for (JavaMethodDeclaration methodDeclaration : methodDeclarations) {
-                            writeMethodDeclaration(writer, methodDeclaration);
-                        }
-                    });
-                }
-                writer.println("}");
-            }
         }
+        for (JavaTypeDeclaration type : compilationUnit.getTypeDeclarations()) {
+            writeAnnotations(writer, type);
+            writeModifiers(writer, TYPE_MODIFIERS, type.getModifiers());
+            writer.print(type.getType() + " " + type.getName());
+            if (type.getExtendedClassName() != null) {
+                writer.print(" extends " + getUnqualifiedName(type.getExtendedClassName()));
+            }
+            writer.println(" {");
+            writer.println();
+            List<JavaFieldDeclaration> fieldDeclarations = type.getFieldDeclarations();
+            if (!fieldDeclarations.isEmpty()) {
+                writer.indented(() -> {
+                    for (JavaFieldDeclaration fieldDeclaration : fieldDeclarations) {
+                        writeFieldDeclaration(writer, fieldDeclaration);
+                    }
+                });
+            }
+            List<JavaMethodDeclaration> methodDeclarations = type.getMethodDeclarations();
+            if (!methodDeclarations.isEmpty()) {
+                writer.indented(() -> {
+                    for (JavaMethodDeclaration methodDeclaration : methodDeclarations) {
+                        writeMethodDeclaration(writer, methodDeclaration);
+                    }
+                });
+            }
+            writer.println("}");
+        }
+    }
+
+    private String resolveFileName(JavaCompilationUnit compilationUnit, String source) {
+        String file = compilationUnit.getName() + "." + this.sourceFileExtension;
+        return resolve(resolvePackage(source, compilationUnit.getPackageName()), file);
+    }
+
+    private String resolvePackage(String directory, String packageName) {
+        return resolve(directory, packageName.replace('.', '/'));
+    }
+
+    private String resolve(String directory, String path) {
+        return directory.concat("/").concat(path);
     }
 
     private void writeAnnotations(IndentingWriter writer, Annotatable annotatable) {
@@ -173,7 +200,7 @@ public class JavaSourceCodeWriter {
     private void writeMethodDeclaration(IndentingWriter writer, JavaMethodDeclaration methodDeclaration) {
         writeAnnotations(writer, methodDeclaration);
         writeModifiers(writer, METHOD_MODIFIERS, methodDeclaration.getModifiers());
-        writer.print(getUnqualifiedName(methodDeclaration.getReturnType()) + " " + methodDeclaration.getName() + "(");
+        writer.print(getUnqualifiedName(methodDeclaration.getReturnType()) + (methodDeclaration.getReturnType().equals("") ? "" : " ") + methodDeclaration.getName() + "(");
         List<Parameter> parameters = methodDeclaration.getParameters();
         if (!parameters.isEmpty()) {
             writer.print(parameters.stream()
