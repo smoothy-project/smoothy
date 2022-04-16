@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.generator.pom;
+package solutions.thex.smoothy.generator.spring.pom;
 
 import lombok.Builder;
 import org.apache.commons.io.FileUtils;

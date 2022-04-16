@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.generator.main.src.java;
+package solutions.thex.smoothy.generator.spring.main.src.java;
 
 import solutions.thex.smoothy.code.Annotation;
 import solutions.thex.smoothy.code.JavaCompilationUnit;
