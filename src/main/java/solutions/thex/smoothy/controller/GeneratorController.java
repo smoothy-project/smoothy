@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import solutions.thex.smoothy.generator.ApplicationDescription;
-import solutions.thex.smoothy.generator.spring.SpringBootApplicationGenerator;
+import solutions.thex.smoothy.generator.ApplicationGenerator;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,21 +19,19 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/api/generate")
 public class GeneratorController {
 
-    private final SpringBootApplicationGenerator generator;
+    private final ApplicationGenerator generator;
 
     @Autowired
-    public GeneratorController(SpringBootApplicationGenerator generator) {
+    public GeneratorController(ApplicationGenerator generator) {
         this.generator = generator;
     }
 
     @PostMapping(value = "", produces = "application/zip")
     public ResponseEntity<StreamingResponseBody> generate(HttpServletRequest request, @RequestBody String payload) {
         return ResponseEntity
-                .ok()
-                .header("Content-Disposition", "attachment; filename=\"smoothy.zip\"")
-                .body(out -> {
-                    generator.generate(new ObjectMapper().readValue(payload, ApplicationDescription.class), out);
-                });
+                .ok()//
+                .header("Content-Disposition", "attachment; filename=\"smoothy.zip\"")//
+                .body(out -> generator.generate(new ObjectMapper().readValue(payload, ApplicationDescription.class), out));
     }
 
 }
