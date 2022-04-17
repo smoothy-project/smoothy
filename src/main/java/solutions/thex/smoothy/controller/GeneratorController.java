@@ -1,5 +1,6 @@
 package solutions.thex.smoothy.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,11 @@ public class GeneratorController {
         return ResponseEntity
                 .ok()//
                 .header("Content-Disposition", "attachment; filename=\"smoothy.zip\"")//
-                .body(out -> generator.generate(new ObjectMapper().readValue(payload, ApplicationDescription.class), out));
+                .body(out -> generator.generate(buildApplicationDescription(payload), out));
+    }
+
+    private ApplicationDescription buildApplicationDescription(String payload) throws JsonProcessingException {
+        return new ObjectMapper().readValue(payload, ApplicationDescription.class);
     }
 
 }
