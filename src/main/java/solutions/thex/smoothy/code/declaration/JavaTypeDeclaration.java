@@ -3,24 +3,18 @@ package solutions.thex.smoothy.code.declaration;
 import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.Data;
-import solutions.thex.smoothy.code.Annotatable;
-import solutions.thex.smoothy.code.Annotation;
-import solutions.thex.smoothy.code.JavaType;
+import solutions.thex.smoothy.code.*;
 import solutions.thex.smoothy.code.formatting.IndentingWriter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * A declaration of a type written in Java.
  */
 @Builder
 @Data
-public class JavaTypeDeclaration implements Annotatable {
+public class JavaTypeDeclaration implements Annotatable, JavaDeclaration {
 
     @Default
     private List<Annotation> annotations = new ArrayList<>();
@@ -36,6 +30,35 @@ public class JavaTypeDeclaration implements Annotatable {
     @Override
     public void annotate(Annotation annotation) {
         this.annotations.add(annotation);
+    }
+
+    @Override
+    public void render(IndentingWriter writer) {
+        JavaSourceCodeWriter.writeAnnotations(writer, this);
+        JavaSourceCodeWriter.writeModifiers(writer, JavaSourceCodeWriter.TYPE_MODIFIERS, getModifiers());
+        writer.print(getType() + " " + getName());
+        if (getExtendedClassName() != null) {
+            writer.print(" extends " + JavaSourceCodeWriter.getUnqualifiedName(getExtendedClassName()));
+        }
+        writer.println(" {");
+        writer.println();
+        List<JavaFieldDeclaration> fieldDeclarations = getFieldDeclarations();
+        if (!fieldDeclarations.isEmpty()) {
+            writer.indented(() -> {
+                for (JavaFieldDeclaration fieldDeclaration : fieldDeclarations) {
+                    fieldDeclaration.render(writer);
+                }
+            });
+        }
+        List<JavaMethodDeclaration> methodDeclarations = getMethodDeclarations();
+        if (!methodDeclarations.isEmpty()) {
+            writer.indented(() -> {
+                for (JavaMethodDeclaration methodDeclaration : methodDeclarations) {
+                    methodDeclaration.render(writer);
+                }
+            });
+        }
+        writer.println("}");
     }
 
 }
