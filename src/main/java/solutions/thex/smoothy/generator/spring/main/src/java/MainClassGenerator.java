@@ -6,7 +6,7 @@ import solutions.thex.smoothy.code.JavaType;
 import solutions.thex.smoothy.code.Parameter;
 import solutions.thex.smoothy.code.declaration.JavaMethodDeclaration;
 import solutions.thex.smoothy.code.declaration.JavaTypeDeclaration;
-import solutions.thex.smoothy.code.expression.JavaMethodInvocation;
+import solutions.thex.smoothy.code.expression.JavaMethodInvocationExpression;
 import solutions.thex.smoothy.code.statement.JavaExpressionStatement;
 import solutions.thex.smoothy.util.StringFormatter;
 
@@ -40,11 +40,14 @@ public class MainClassGenerator {
                                                                 .build()))//
                                                 .statements(List.of(//
                                                         JavaExpressionStatement.builder()
-                                                                .expression(JavaMethodInvocation.builder()//
+                                                                .expression(JavaMethodInvocationExpression.builder()//
                                                                         .target("org.springframework.boot.SpringApplication")//
-                                                                        .name("run")//
-                                                                        .arguments(List.of(//
-                                                                                "Application.class", "args"))//
+                                                                        .invokes(List.of(//
+                                                                                JavaMethodInvocationExpression.MethodInvoke.builder()//
+                                                                                        .method("run")//
+                                                                                        .arguments(List.of(//
+                                                                                                StringFormatter.toPascalCase(name.concat("Application")).concat(".class"), "args"))//
+                                                                                        .build()))//
                                                                         .build())//
                                                                 .build()))//
                                                 .build()))//
