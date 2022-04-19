@@ -16,7 +16,7 @@ import java.util.Set;
  */
 @Builder
 @Getter
-public class JavaCompilationUnit implements CompilationUnit{
+public class JavaCompilationUnit implements CompilationUnit {
 
     @Default
     private final List<JavaTypeDeclaration> typeDeclarations = new ArrayList<>();

@@ -7,9 +7,8 @@ import solutions.thex.smoothy.code.JavaStatement;
 import solutions.thex.smoothy.code.formatting.IndentingWriter;
 
 
-@Getter
-public record JavaAssignStatement(String variable,
-                                  JavaExpression expression) implements JavaStatement {
+public record JavaAssignStatement(@Getter String variable,
+                                  @Getter JavaExpression expression) implements JavaStatement {
 
     @Builder
     public JavaAssignStatement {

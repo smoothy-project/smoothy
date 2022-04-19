@@ -8,9 +8,9 @@ import solutions.thex.smoothy.code.JavaStatement;
 import solutions.thex.smoothy.code.formatting.IndentingWriter;
 
 
-@Getter
-public record JavaDeclarationStatement(int modifiers, String name, String type, boolean initialized,
-                                       JavaExpression expression) implements JavaStatement {
+public record JavaDeclarationStatement(@Getter int modifiers, @Getter String name, @Getter String type,//
+                                       @Getter boolean initialized,
+                                       @Getter JavaExpression expression) implements JavaStatement {
 
     @Builder
     public JavaDeclarationStatement {
@@ -19,10 +19,10 @@ public record JavaDeclarationStatement(int modifiers, String name, String type, 
     @Override
     public void render(IndentingWriter writer) {
         JavaSourceCodeWriter.writeModifiers(writer, JavaSourceCodeWriter.FIELD_MODIFIERS, this.modifiers);
-        writer.print(JavaSourceCodeWriter.getUnqualifiedName(getType()));
+        writer.print(JavaSourceCodeWriter.getUnqualifiedName(this.type));
         writer.print(" ");
-        writer.print(getName());
-        if (isInitialized()) {
+        writer.print(this.name);
+        if (this.initialized) {
             writer.print(" = ");
             expression.render(writer);
         }
