@@ -9,10 +9,14 @@ import solutions.thex.smoothy.code.formatting.IndentingWriter;
 /**
  * A statement that contains a single expression.
  */
-public record JavaExpressionStatement(@Getter JavaExpression expression) implements JavaStatement {
+public record JavaExpressionStatement(JavaExpression expression) implements JavaStatement {
 
     @Builder
     public JavaExpressionStatement {
+    }
+
+    public JavaExpression getExpression() {
+        return expression;
     }
 
     @Override
