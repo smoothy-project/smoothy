@@ -9,25 +9,21 @@ import java.util.function.Function;
  */
 public record SimpleIndentStrategy(String indent) implements Function<Integer, String> {
 
-	/**
-	 * Create a new instance with the indent style to apply.
-	 *
-	 * @param indent the indent to apply for each indent level
-	 */
-	public SimpleIndentStrategy {
-		Assert.notNull(indent, "Indent must be provided");
-	}
+    /**
+     * Create a new instance with the indent style to apply.
+     *
+     * @param indent the indent to apply for each indent level
+     */
+    public SimpleIndentStrategy {
+        Assert.notNull(indent, "Indent must be provided");
+    }
 
-	@Override
-	public String apply(Integer level) {
-		if (level < 0) {
-			throw new IllegalArgumentException("Indent level must not be negative, got" + level);
-		}
-		StringBuilder indentBuilder = new StringBuilder();
-		for (int i = 0; i < level; i++) {
-			indentBuilder.append(this.indent);
-		}
-		return indentBuilder.toString();
-	}
+    @Override
+    public String apply(Integer level) {
+        if (level < 0)
+            throw new IllegalArgumentException("Indent level must not be negative, got" + level);
+
+        return String.valueOf(this.indent).repeat(level);
+    }
 
 }
