@@ -8,13 +8,16 @@ import lombok.Data;
 import lombok.Builder.Default;
 import solutions.thex.smoothy.code.Annotatable;
 import solutions.thex.smoothy.code.Annotation;
+import solutions.thex.smoothy.code.JavaDeclaration;
+import solutions.thex.smoothy.code.JavaSourceCodeWriter;
+import solutions.thex.smoothy.code.formatting.IndentingWriter;
 
 /**
  * Declaration of a field written in Java.
  */
 @Builder
 @Data
-public final class JavaFieldDeclaration implements Annotatable {
+public final class JavaFieldDeclaration implements Annotatable, JavaDeclaration {
 
 	@Default
 	private final List<Annotation> annotations = new ArrayList<>();
@@ -27,6 +30,21 @@ public final class JavaFieldDeclaration implements Annotatable {
 	@Override
 	public void annotate(Annotation annotation) {
 		this.annotations.add(annotation);
+	}
+
+	@Override
+	public void render(IndentingWriter writer) {
+		JavaSourceCodeWriter.writeAnnotations(writer, this);
+		JavaSourceCodeWriter.writeModifiers(writer, JavaSourceCodeWriter.FIELD_MODIFIERS, getModifiers());
+		writer.print(JavaSourceCodeWriter.getUnqualifiedName(getType()));
+		writer.print(" ");
+		writer.print(getName());
+		if (isInitialized()) {
+			writer.print(" = ");
+			writer.print(String.valueOf(getValue()));
+		}
+		writer.println(";");
+		writer.println();
 	}
 
 }
