@@ -4,10 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.io.JsonEOFException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import solutions.thex.smoothy.exception.PayloadIsNotSatisfactoryException;
 import solutions.thex.smoothy.generator.ApplicationDescription;
@@ -36,15 +40,40 @@ public class BeforeGenerateAspects {
     }
 
     private void validatePayload(String payload) {
-        try {
-            checkRequires(new ObjectMapper().readValue(payload, ApplicationDescription.class));
-        } catch (JsonEOFException e) {
-            throw new PayloadIsNotSatisfactoryException(e.getMessage());
-        } catch (MismatchedInputException e) {
-            throw new PayloadIsNotSatisfactoryException("Missing external type id property 'applicationType'!");
-        } catch (JsonProcessingException e) {
-            throw new PayloadIsNotSatisfactoryException("Error while parsing payload!");
+        if (isJSONValid(payload)) {
+            try {
+                checkRequires(new ObjectMapper().readValue(payload, ApplicationDescription.class));
+            } catch (JsonEOFException e) {
+                log.error("solutions.thex.smoothy.aspect.BeforeGenerateAspects.validatePayload(): {}", e.getMessage());
+                throw new PayloadIsNotSatisfactoryException(e.getMessage());
+            } catch (MismatchedInputException e) {
+                log.error("solutions.thex.smoothy.aspect.BeforeGenerateAspects.validatePayload(): {}", e.getMessage());
+                throw new PayloadIsNotSatisfactoryException("Missing external type id property 'applicationType'!");
+            } catch (JsonProcessingException e) {
+                log.error("solutions.thex.smoothy.aspect.BeforeGenerateAspects.validatePayload(): {}", e.getMessage());
+                throw new PayloadIsNotSatisfactoryException("Error while parsing JSON!");
+            }
+        } else {
+            try {
+                checkRequires(new ObjectMapper(new YAMLFactory()).readValue(payload, ApplicationDescription.class));
+            } catch (JsonProcessingException e) {
+                log.error("solutions.thex.smoothy.aspect.BeforeGenerateAspects.validatePayload(): {}", e.getMessage());
+                throw new PayloadIsNotSatisfactoryException("Error while parsing YAML!");
+            }
         }
+    }
+
+    private boolean isJSONValid(String test) {
+        try {
+            new JSONObject(test);
+        } catch (JSONException ex) {
+            try {
+                new JSONArray(test);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void checkRequires(ApplicationDescription applicationDescription) throws JsonProcessingException {

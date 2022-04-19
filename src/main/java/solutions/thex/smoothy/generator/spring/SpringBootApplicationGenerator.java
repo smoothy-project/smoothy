@@ -1,11 +1,15 @@
 package solutions.thex.smoothy.generator.spring;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import solutions.thex.smoothy.code.JavaCompilationUnit;
 import solutions.thex.smoothy.code.JavaSourceCode;
 import solutions.thex.smoothy.code.JavaSourceCodeWriter;
 import solutions.thex.smoothy.generator.ApplicationDescription;
+import solutions.thex.smoothy.generator.spring.conf.SmoothyDotConfFileGenerator;
 import solutions.thex.smoothy.generator.spring.main.src.java.MainClassGenerator;
 import solutions.thex.smoothy.generator.spring.main.src.java.SecurityConfigGenerator;
 import solutions.thex.smoothy.generator.spring.main.src.resources.properties.ApplicationPropertiesFileGenerator;
@@ -52,7 +56,8 @@ public class SpringBootApplicationGenerator {
     private List<ISoyConfiguration> generateStaticUnits(ApplicationDescription application) throws IOException {
         return List.of(//
                 generateApplicationPropertiesFile(application),//
-                generatePomFile(application));
+                generatePomFile(application),//
+                generateSmoothyDotConf(application));
     }
 
     private ISoyConfiguration generateApplicationPropertiesFile(ApplicationDescription application) throws IOException {
@@ -68,6 +73,12 @@ public class SpringBootApplicationGenerator {
                 .springVersion(((SpringBootApplication) application.getApplication()).getSpringVersion())//
                 .name(application.getName())//
                 .description(application.getDescription())//
+                .build();
+    }
+
+    private ISoyConfiguration generateSmoothyDotConf(ApplicationDescription application) throws IOException {
+        return SmoothyDotConfFileGenerator.builder()//
+                .yml(new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER)).writeValueAsString(application))//
                 .build();
     }
 
