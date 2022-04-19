@@ -43,6 +43,10 @@ public class IndentingWriter extends ZipOutputStream {
         this.indentStrategy = indentStrategy;
     }
 
+    public String getIndent() {
+        return indent;
+    }
+
     /**
      * Write the specified text.
      *
