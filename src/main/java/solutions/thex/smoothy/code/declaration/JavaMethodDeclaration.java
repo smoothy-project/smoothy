@@ -52,7 +52,17 @@ public final class JavaMethodDeclaration implements Annotatable, JavaDeclaration
         List<Parameter> parameters = getParameters();
         if (!parameters.isEmpty()) {
             writer.print(parameters.stream()
-                    .map((parameter) -> JavaSourceCodeWriter.getUnqualifiedName(parameter.getType()) + " " + parameter.getName())
+                    .map((parameter) -> {
+                        if (parameter.getGenericTypes().isEmpty())
+                            return JavaSourceCodeWriter.getUnqualifiedName(parameter.getType()) + " " + parameter.getName();
+                        else
+                            return JavaSourceCodeWriter.getUnqualifiedName(parameter.getType())//
+                                    + "<" +//
+                                    parameter.getGenericTypes().stream()//
+                                            .map(JavaSourceCodeWriter::getUnqualifiedName)//
+                                            .collect(Collectors.joining(", "))//
+                                    + "> " + parameter.getName();
+                    })
                     .collect(Collectors.joining(", ")));
         }
         if (isThrows()) {
