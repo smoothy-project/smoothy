@@ -23,13 +23,21 @@ public class JavaMethodInvocationExpression implements JavaExpression {
     @Builder
     @Getter
     public static final class MethodInvoke {
+
         @Builder.Default
         private final List<String> arguments = new LinkedList<>();
-        private final String method;
+        @Builder.Default
+        private final boolean breakLine = false;
+        private String method;
 
         public String render() {
-            return method + "(" + String.join(", ", arguments) + ")";
+            return method + "(" + String.join(", ", arguments) + ")" + printTabIfBreakLine();
         }
+
+        private String printTabIfBreakLine() {
+            return (breakLine) ? "//\n" + "    " + "    " : ""; //TODO: give indentation strategy
+        }
+
     }
 
     @Override
@@ -37,7 +45,7 @@ public class JavaMethodInvocationExpression implements JavaExpression {
         writer.print(//
                 JavaSourceCodeWriter.getUnqualifiedName(this.target)//
                         + "."//
-                        + invokes.stream().map(MethodInvoke::render).reduce((a, b) -> a + "//\n" + writer.getIndent() + writer.getIndent() + "." + b).orElse(""));
+                        + invokes.stream().map(MethodInvoke::render).reduce((a, b) -> a + "." + b).orElse(""));
     }
 
 }

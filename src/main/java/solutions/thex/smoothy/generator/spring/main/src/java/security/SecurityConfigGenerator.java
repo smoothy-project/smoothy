@@ -92,7 +92,7 @@ public class SecurityConfigGenerator {
                                                                                 .build(),//
                                                                         Parameter.builder()//
                                                                                 .name("jwtAuthenticationFilter")//
-                                                                                .type("website.smoothy.".concat(name.toLowerCase()).concat("security.jwt.JwtAuthenticationFilter"))//
+                                                                                .type("website.smoothy.".concat(name.toLowerCase()).concat(".security.jwt.JwtAuthenticationFilter"))//
                                                                                 .build()))//
                                                                 .statements(List.of(//
                                                                         JavaAssignStatement.builder()//
@@ -168,9 +168,11 @@ public class SecurityConfigGenerator {
                                                                                                         .build(),//
                                                                                                 JavaMethodInvocationExpression.MethodInvoke.builder()//
                                                                                                         .method("disable")//
+                                                                                                        .breakLine(true)//
                                                                                                         .build(),//
                                                                                                 JavaMethodInvocationExpression.MethodInvoke.builder()//
                                                                                                         .method("authorizeRequests")//
+                                                                                                        .breakLine(true)//
                                                                                                         .build(),//
                                                                                                 JavaMethodInvocationExpression.MethodInvoke.builder()//
                                                                                                         .method("antMatchers")//
@@ -179,6 +181,7 @@ public class SecurityConfigGenerator {
                                                                                                         .build(),//
                                                                                                 JavaMethodInvocationExpression.MethodInvoke.builder()//
                                                                                                         .method("permitAll")//
+                                                                                                        .breakLine(true)//
                                                                                                         .build(),//
                                                                                                 JavaMethodInvocationExpression.MethodInvoke.builder()//
                                                                                                         .method("antMatchers")//
@@ -187,6 +190,7 @@ public class SecurityConfigGenerator {
                                                                                                         .build(),//
                                                                                                 JavaMethodInvocationExpression.MethodInvoke.builder()//
                                                                                                         .method("hasAnyAuthority")//
+                                                                                                        .breakLine(true)//
                                                                                                         .arguments(List.of(//
                                                                                                                 "\"ADMIN\""))//
                                                                                                         .build(),//
@@ -197,6 +201,7 @@ public class SecurityConfigGenerator {
                                                                                                         .build(),//
                                                                                                 JavaMethodInvocationExpression.MethodInvoke.builder()//
                                                                                                         .method("hasAnyAuthority")//
+                                                                                                        .breakLine(true)//
                                                                                                         .arguments(List.of(//
                                                                                                                 "\"USER\""))//
                                                                                                         .build(),//
@@ -205,9 +210,24 @@ public class SecurityConfigGenerator {
                                                                                                         .build(),//
                                                                                                 JavaMethodInvocationExpression.MethodInvoke.builder()//
                                                                                                         .method("authenticated")//
+                                                                                                        .breakLine(true)//
                                                                                                         .build(),//
                                                                                                 JavaMethodInvocationExpression.MethodInvoke.builder()//
                                                                                                         .method("and")//
+                                                                                                        .breakLine(true)//
+                                                                                                        .build(),//
+                                                                                                JavaMethodInvocationExpression.MethodInvoke.builder()//
+                                                                                                        .method("exceptionHandling")//
+                                                                                                        .build(),//
+                                                                                                JavaMethodInvocationExpression.MethodInvoke.builder()//
+                                                                                                        .method("authenticationEntryPoint")//
+                                                                                                        .breakLine(true)//
+                                                                                                        .arguments(List.of(//
+                                                                                                                "unauthorizedEntryPoint"))//
+                                                                                                        .build(),//
+                                                                                                JavaMethodInvocationExpression.MethodInvoke.builder()//
+                                                                                                        .method("and")//
+                                                                                                        .breakLine(true)//
                                                                                                         .build(),//
                                                                                                 JavaMethodInvocationExpression.MethodInvoke.builder()//
                                                                                                         .method("sessionManagement")//

@@ -44,7 +44,7 @@ public class SpringBootApplicationGenerator {
     private List<JavaCompilationUnit> generateCompilationUnits(ApplicationDescription application) {
         List<JavaCompilationUnit> compilationUnits = new ArrayList<>();
         compilationUnits.add(MainClassGenerator.generate(application.getName()));
-        //compilationUnits.addAll(SecurityConfigGenerator.generate(application.getName()));
+        compilationUnits.addAll(SecurityConfigGenerator.generate(application.getName()));
         return compilationUnits;
     }
 
