@@ -2,12 +2,14 @@ package solutions.thex.smoothy.code.expression;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 import solutions.thex.smoothy.code.JavaExpression;
 import solutions.thex.smoothy.code.JavaSourceCodeWriter;
 import solutions.thex.smoothy.code.formatting.IndentingWriter;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * An invocation of a method.
@@ -16,12 +18,13 @@ import java.util.List;
 @Getter
 public class JavaMethodInvocationExpression implements JavaExpression {
 
-    private final String target;
     @Builder.Default
     private final List<MethodInvoke> invokes = new LinkedList<>();
+    private final String target;
 
     @Builder
     @Getter
+    @ToString
     public static final class MethodInvoke {
 
         @Builder.Default
@@ -31,7 +34,9 @@ public class JavaMethodInvocationExpression implements JavaExpression {
         private String method;
 
         public String render() {
-            return method + "(" + String.join(", ", arguments) + ")" + printTabIfBreakLine();
+            return method + "(" +//
+                    arguments.stream().map(JavaSourceCodeWriter::getUnqualifiedName).collect(Collectors.joining(", "))//
+                    + ")" + printTabIfBreakLine();
         }
 
         private String printTabIfBreakLine() {

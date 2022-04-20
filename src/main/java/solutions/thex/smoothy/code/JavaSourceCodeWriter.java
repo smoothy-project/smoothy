@@ -75,7 +75,7 @@ public class JavaSourceCodeWriter {
             }
             for (JavaCompilationUnit compilationUnit : sourceCode.getTestCompilationUnits()) {
                 writer.putNextEntry(new ZipEntry(resolveFileName(compilationUnit, this.testsDirectory)));
-                compilationUnit.render(writer);;
+                compilationUnit.render(writer);
                 writer.closeEntry();
             }
             for (ISoyConfiguration staticUnit : sourceCode.getStaticCompilationUnits()) {
@@ -108,12 +108,16 @@ public class JavaSourceCodeWriter {
         List<Annotation.Attribute> attributes = annotation.getAttributes();
         if (!attributes.isEmpty()) {
             writer.print("(");
-            if (attributes.size() == 1 && attributes.get(0).getName().equals("value")) {
-                writer.print(formatAnnotationAttribute(attributes.get(0)));
+            if (attributes.get(0).getName() != null) {
+                if (attributes.size() == 1 && attributes.get(0).getName().equals("value")) {
+                    writer.print(formatAnnotationAttribute(attributes.get(0)));
+                } else {
+                    writer.print(attributes.stream()
+                            .map((attribute) -> attribute.getName() + " = " + formatAnnotationAttribute(attribute))
+                            .collect(Collectors.joining(", ")));
+                }
             } else {
-                writer.print(attributes.stream()
-                        .map((attribute) -> attribute.getName() + " = " + formatAnnotationAttribute(attribute))
-                        .collect(Collectors.joining(", ")));
+                writer.print(formatAnnotationAttribute(attributes.get(0)));
             }
             writer.print(")");
         }
@@ -143,7 +147,8 @@ public class JavaSourceCodeWriter {
         return (values.size() > 1) ? "{ " + result + " }" : result;
     }
 
-    public static void writeModifiers(IndentingWriter writer, Map<Predicate<Integer>, String> availableModifiers,
+    public static void writeModifiers(IndentingWriter
+                                              writer, Map<Predicate<Integer>, String> availableModifiers,
                                       int declaredModifiers) {
         String modifiers = availableModifiers.entrySet().stream()
                 .filter((entry) -> entry.getKey().test(declaredModifiers)).map(Entry::getValue)
@@ -180,10 +185,23 @@ public class JavaSourceCodeWriter {
                 imports.addAll(getRequiredImports(methodDeclaration.getParameters(),
                         (parameter) -> Collections.singletonList(parameter.getType())));
                 imports.addAll(getRequiredImports(
-                        methodDeclaration.getStatements().stream().filter(JavaExpressionStatement.class::isInstance)
-                                .map(JavaExpressionStatement.class::cast).map(JavaExpressionStatement::getExpression)
+                        methodDeclaration.getStatements().stream()//
+                                .filter(JavaExpressionStatement.class::isInstance)
+                                .map(JavaExpressionStatement.class::cast).map(JavaExpressionStatement::getExpression)//
                                 .filter(JavaMethodInvocationExpression.class::isInstance).map(JavaMethodInvocationExpression.class::cast),
                         (methodInvocation) -> Collections.singleton(methodInvocation.getTarget())));
+                imports.addAll(getRequiredImports(
+                        methodDeclaration.getStatements().stream()//
+                                .map(JavaStatement::getExpression)//
+                                .filter(JavaMethodInvocationExpression.class::isInstance)//
+                                .map(JavaMethodInvocationExpression.class::cast)//
+                                .map(JavaMethodInvocationExpression::getInvokes)//
+                                .flatMap(List::stream)//
+                                .map(JavaMethodInvocationExpression.MethodInvoke::getArguments)//
+                                .flatMap(List::stream)//
+                                .map(str -> str.split("::")[0])
+                        ,
+                        Collections::singletonList));
             }
         }
         Collections.sort(imports);

@@ -15,6 +15,7 @@ public record JavaExpressionStatement(JavaExpression expression) implements Java
     public JavaExpressionStatement {
     }
 
+    @Override
     public JavaExpression getExpression() {
         return expression;
     }

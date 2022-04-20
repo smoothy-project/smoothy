@@ -9,10 +9,15 @@ import solutions.thex.smoothy.code.formatting.IndentingWriter;
 /**
  * A return statement.
  */
-public record JavaReturnStatement(@Getter JavaExpression expression) implements JavaStatement {
+public record JavaReturnStatement(JavaExpression expression) implements JavaStatement {
 
     @Builder
     public JavaReturnStatement {
+    }
+
+    @Override
+    public JavaExpression getExpression() {
+        return expression;
     }
 
     @Override
