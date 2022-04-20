@@ -160,6 +160,9 @@ public class JavaSourceCodeWriter {
             if (requiresImport(typeDeclaration.getExtendedClassName())) {
                 imports.add(typeDeclaration.getExtendedClassName());
             }
+            if (requiresImport(typeDeclaration.getImplementedClassName())) {
+                imports.add(typeDeclaration.getImplementedClassName());
+            }
             imports.addAll(getRequiredImports(typeDeclaration.getAnnotations(), JavaSourceCodeWriter::determineImports));
             for (JavaFieldDeclaration fieldDeclaration : typeDeclaration.getFieldDeclarations()) {
                 if (requiresImport(fieldDeclaration.getType())) {

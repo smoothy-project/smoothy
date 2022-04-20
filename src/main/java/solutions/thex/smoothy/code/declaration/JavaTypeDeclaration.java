@@ -25,6 +25,7 @@ public class JavaTypeDeclaration implements Annotatable, JavaDeclaration {
     private final JavaType type;
     private final String name;
     private String extendedClassName;
+    private String implementedClassName;
     private int modifiers;
 
     @Override
@@ -39,6 +40,8 @@ public class JavaTypeDeclaration implements Annotatable, JavaDeclaration {
         writer.print(getType() + " " + getName());
         if (getExtendedClassName() != null) {
             writer.print(" extends " + JavaSourceCodeWriter.getUnqualifiedName(getExtendedClassName()));
+        } else if (getImplementedClassName() != null) {
+            writer.print(" implements " + JavaSourceCodeWriter.getUnqualifiedName(getImplementedClassName()));
         }
         writer.println(" {");
         writer.println();
