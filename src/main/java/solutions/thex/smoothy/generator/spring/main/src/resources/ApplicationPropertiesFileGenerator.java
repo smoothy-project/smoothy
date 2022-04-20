@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.generator.spring.main.src.resources.properties;
+package solutions.thex.smoothy.generator.spring.main.src.resources;
 
 import lombok.Builder;
 import org.apache.commons.io.FileUtils;
