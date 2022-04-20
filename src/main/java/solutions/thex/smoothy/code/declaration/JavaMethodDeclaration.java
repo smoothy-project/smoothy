@@ -67,7 +67,9 @@ public final class JavaMethodDeclaration implements Annotatable, JavaDeclaration
         }
         if (isThrows()) {
             writer.print(") throws ");
-            writer.print(String.join(", ", getExceptions()));
+            writer.print(getExceptions().stream()//
+                    .map(JavaSourceCodeWriter::getUnqualifiedName)//
+                    .collect(Collectors.joining(", ")));
             writer.println(" {");
         } else {
             writer.println(") {");
