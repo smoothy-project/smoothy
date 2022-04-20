@@ -200,13 +200,28 @@ public class JavaSourceCodeWriter {
                                 .flatMap(List::stream)//
                                 .map(JavaMethodInvocationExpression.MethodInvoke::getArguments)//
                                 .flatMap(List::stream)//
-                                .map(str -> str.split("::")[0])
+                                .map(str -> {
+                                    if (str.startsWith("\""))
+                                        return "";
+                                    else if (str.contains("::"))
+                                        return str.split("::")[0];
+                                    else if (str.endsWith(".class"))
+                                        return str.substring(0, str.length() - 6);
+                                    else if (str.contains(".") && isUpperCase(str.split("\\.")[str.split("\\.").length - 1]))
+                                        return str.substring(0, str.length() - (str.split("\\.")[str.split("\\.").length - 1].length() + 1));
+
+                                    return str;
+                                })
                         ,
                         Collections::singletonList));
             }
         }
         Collections.sort(imports);
         return new LinkedHashSet<>(imports);
+    }
+
+    public static boolean isUpperCase(String str) {
+        return str.length() > 0 && Character.isUpperCase(str.charAt(0));
     }
 
     private static Collection<String> determineImports(Annotation annotation) {

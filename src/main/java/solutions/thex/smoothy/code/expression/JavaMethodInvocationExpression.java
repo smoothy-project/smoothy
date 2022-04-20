@@ -35,7 +35,16 @@ public class JavaMethodInvocationExpression implements JavaExpression {
 
         public String render() {
             return method + "(" +//
-                    arguments.stream().map(JavaSourceCodeWriter::getUnqualifiedName).collect(Collectors.joining(", "))//
+                    arguments.stream().map(argument -> {
+                        if ((argument.startsWith("\"")))
+                            return argument;
+                        else if (argument.endsWith("class"))
+                            return argument.split("\\.")[argument.split("\\.").length - 2] + ".class";
+                        else if (argument.contains(".") && JavaSourceCodeWriter.isUpperCase(argument.split("\\.")[argument.split("\\.").length - 1]))
+                            return argument.split("\\.")[argument.split("\\.").length - 2] + "." + argument.split("\\.")[argument.split("\\.").length - 1];
+
+                        return JavaSourceCodeWriter.getUnqualifiedName(argument);
+                    }).collect(Collectors.joining(", "))//
                     + ")" + printTabIfBreakLine();
         }
 
