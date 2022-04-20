@@ -6,7 +6,6 @@ import solutions.thex.smoothy.code.declaration.JavaTypeDeclaration;
 import solutions.thex.smoothy.code.expression.JavaMethodInvocationExpression;
 import solutions.thex.smoothy.code.formatting.IndentingWriter;
 import solutions.thex.smoothy.code.formatting.IndentingWriterFactory;
-import solutions.thex.smoothy.code.statement.JavaExpressionStatement;
 import solutions.thex.smoothy.soy.ISoyConfiguration;
 
 import java.io.IOException;
@@ -184,10 +183,12 @@ public class JavaSourceCodeWriter {
                         Collections::singletonList));
                 imports.addAll(getRequiredImports(methodDeclaration.getParameters(),
                         (parameter) -> Collections.singletonList(parameter.getType())));
+                imports.addAll(getRequiredImports(//
+                        methodDeclaration.getParameters().stream().map(Parameter::getGenericTypes).flatMap(List::stream).collect(Collectors.toList()),
+                        Collections::singletonList));
                 imports.addAll(getRequiredImports(
                         methodDeclaration.getStatements().stream()//
-                                .filter(JavaExpressionStatement.class::isInstance)
-                                .map(JavaExpressionStatement.class::cast).map(JavaExpressionStatement::getExpression)//
+                                .map(JavaStatement::getExpression)//
                                 .filter(JavaMethodInvocationExpression.class::isInstance).map(JavaMethodInvocationExpression.class::cast),
                         (methodInvocation) -> Collections.singleton(methodInvocation.getTarget())));
                 imports.addAll(getRequiredImports(

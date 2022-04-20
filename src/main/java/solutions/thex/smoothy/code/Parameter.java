@@ -3,6 +3,9 @@ package solutions.thex.smoothy.code;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * A parameter, typically of a method or function.
  */
@@ -11,7 +14,9 @@ import lombok.Data;
 @Data
 public class Parameter {
 
-	private final String type;
-	private final String name;
+    @Builder.Default
+    private final List<String> genericTypes = new LinkedList<>();
+    private final String type;
+    private final String name;
 
 }
