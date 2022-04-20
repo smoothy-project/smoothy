@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.generator.spring.main.src.java;
+package solutions.thex.smoothy.generator.spring.main.src.java.security;
 
 import solutions.thex.smoothy.code.Annotation;
 import solutions.thex.smoothy.code.JavaCompilationUnit;
@@ -72,7 +72,7 @@ public class SecurityConfigGenerator {
                                                                 .build(),//
                                                         JavaFieldDeclaration.builder()//
                                                                 .name("jwtAuthenticationFilter")//
-                                                                .type("website.smoothy.".concat(name.toLowerCase()).concat("security.jwt.JwtAuthenticationFilter"))//
+                                                                .type("website.smoothy.".concat(name.toLowerCase()).concat(".security.jwt.JwtAuthenticationFilter"))//
                                                                 .modifiers(Modifier.PRIVATE | Modifier.FINAL)//
                                                                 .initialized(false)//
                                                                 .build()))//
@@ -272,8 +272,76 @@ public class SecurityConfigGenerator {
                                                                                 .build()))//
                                                                 .build()))//
                                                 .build()))//
-                        .build()
-        );
+                        .build(),//
+                JavaCompilationUnit.builder()//
+                        .packageName("website.smoothy.".concat(name.toLowerCase()).concat(".security"))//
+                        .name("UnauthorizedEntryPoint")//
+                        .typeDeclarations(
+                                List.of(//
+                                        JavaTypeDeclaration.builder()//
+                                                .type(JavaType.CLASS)//
+                                                .name("UnauthorizedEntryPoint")//
+                                                .modifiers(Modifier.PUBLIC | Modifier.FINAL)//
+                                                .implementedClassName("org.springframework.security.web.AuthenticationEntryPoint")//
+                                                .annotations(List.of(//
+                                                        Annotation.builder()//
+                                                                .name("org.springframework.stereotype.Component")//
+                                                                .build(),//
+                                                        Annotation.builder()//
+                                                                .name("lombok.extern.slf4j.Slf4j")//
+                                                                .build()))//
+                                                .methodDeclarations(List.of(//
+                                                        JavaMethodDeclaration.builder()//
+                                                                .name("commence")//
+                                                                .returnType("void")//
+                                                                .modifiers(Modifier.PUBLIC)//
+                                                                .isThrows(true)//
+                                                                .exceptions(List.of(//
+                                                                        "java.io.IOException"))//
+                                                                .annotations(List.of(//
+                                                                        Annotation.builder()//
+                                                                                .name("org.springframework.context.annotation.Bean")//
+                                                                                .build()))//
+                                                                .parameters(List.of(//
+                                                                        Parameter.builder()//
+                                                                                .name("request")//
+                                                                                .type("javax.servlet.http.HttpServletRequest")//
+                                                                                .build(),//
+                                                                        Parameter.builder()//
+                                                                                .name("response")//
+                                                                                .type("javax.servlet.http.HttpServletResponse")//
+                                                                                .build(),//
+                                                                        Parameter.builder()//
+                                                                                .name("authException")//
+                                                                                .type("org.springframework.security.core.AuthenticationException")//
+                                                                                .build()))//
+                                                                .statements(List.of(//
+                                                                        JavaExpressionStatement.builder()//
+                                                                                .expression(JavaMethodInvocationExpression.builder()//
+                                                                                        .target("log")//
+                                                                                        .invokes(List.of(//
+                                                                                                JavaMethodInvocationExpression.MethodInvoke.builder()//
+                                                                                                        .method("warn")//
+                                                                                                        .arguments(List.of("\"UnauthorizedEntryPoint.commence: \" //\n" +
+                                                                                                                "                + \"path= \" + request.getRequestURI()//\n" +
+                                                                                                                "                + \", ip= \" + request.getRemoteAddr()//\n" +
+                                                                                                                "                + \", user agent= \" + request.getHeader(\"User-Agent\")"))//
+                                                                                                        .build()))//
+                                                                                        .build())//
+                                                                                .build(),//
+                                                                        JavaExpressionStatement.builder()//
+                                                                                .expression(JavaMethodInvocationExpression.builder()//
+                                                                                        .target("response")//
+                                                                                        .invokes(List.of(//
+                                                                                                JavaMethodInvocationExpression.MethodInvoke.builder()//
+                                                                                                        .method("sendError")//
+                                                                                                        .arguments(List.of("javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED"))//
+                                                                                                        .build()))//
+                                                                                        .build())//
+                                                                                .build()))//
+                                                                .build()))//
+                                                .build()))//
+                        .build());
     }
 
 }
