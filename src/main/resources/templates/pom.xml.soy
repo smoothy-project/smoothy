@@ -29,6 +29,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>{/literal}{$java}{literal}</java.version>
 		<spring-boot-admin.version>2.6.2</spring-boot-admin.version>
+		<jwt.version>0.9.1</jwt.version>
 	</properties>
 
 	<dependencies>
@@ -66,6 +67,11 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jwt.version}</version>
         </dependency>
 	</dependencies>
 
