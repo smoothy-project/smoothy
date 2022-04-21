@@ -37,7 +37,7 @@ public class JavaMethodInvocationExpression implements JavaExpression {
         private String method;
 
         public String render() {
-            return method +//
+            return getUnqualifiedName(method) +//
                     ((lambda) ?//
                             ""//
                             ://
@@ -47,6 +47,13 @@ public class JavaMethodInvocationExpression implements JavaExpression {
                                             .collect(Collectors.joining(", "))//
                                     + ")"))//
                     + printTabIfBreakLine();
+        }
+
+        private String getUnqualifiedName(String name) {
+            if (!name.contains(".") || name.split("\\.").length <= 2) {
+                return name;
+            }
+            return name.split("\\.")[name.split("\\.").length - 2] + "." + name.split("\\.")[name.split("\\.").length - 1];
         }
 
         private String printTabIfBreakLine() {

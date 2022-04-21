@@ -19,13 +19,18 @@ public class Argument {
     private boolean lambda = false;
     @Builder.Default
     private boolean invoked = false;
+    @Builder.Default
+    private boolean newed = false;
     private final String name;
 
     public String render() {
         if (isInvoked() && isLambda()) {
             return JavaSourceCodeWriter.getUnqualifiedName(name) + "::" + invokes.get(0).render();
-        } else if (isInvoked() && !isLambda()) {
+        } else if (isInvoked() && !isLambda() && !isNewed()) {
             return JavaSourceCodeWriter.getUnqualifiedName(name) + "." + invokes.stream().map(JavaMethodInvocationExpression.MethodInvoke::render).reduce((a, b) -> a + "." + b).get();
+        } else if (isNewed()) {
+            System.out.println("newed");
+            return "new " + JavaSourceCodeWriter.getUnqualifiedName(name) + "(" + invokes.stream().map(JavaMethodInvocationExpression.MethodInvoke::render).reduce((a, b) -> a + "." + b).get() + ")";
         } else {
             if ((name.startsWith("\"")))
                 return name;

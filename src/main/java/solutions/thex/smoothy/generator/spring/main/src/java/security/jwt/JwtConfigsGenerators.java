@@ -273,7 +273,8 @@ public class JwtConfigsGenerators {
                                                                                                         .method("before")//
                                                                                                         .arguments(List.of(//
                                                                                                                 Argument.builder()//
-                                                                                                                        .name("new Date()")//
+                                                                                                                        .name("java.util.Date")//
+                                                                                                                        .newed(true)//
                                                                                                                         .build()))//
                                                                                                         .build()))//
                                                                                         .build())//
@@ -356,6 +357,7 @@ public class JwtConfigsGenerators {
                                                                                                         .build(),//
                                                                                                 JavaMethodInvocationExpression.MethodInvoke.builder()//
                                                                                                         .method("claim")//
+                                                                                                        .breakLine(true)//
                                                                                                         .arguments(List.of(//
                                                                                                                 Argument.builder()//
                                                                                                                         .name("AUTHORITIES_KEY")//
@@ -366,6 +368,7 @@ public class JwtConfigsGenerators {
                                                                                                         .build(),//
                                                                                                 JavaMethodInvocationExpression.MethodInvoke.builder()//
                                                                                                         .method("setIssuedAt")//
+                                                                                                        .breakLine(true)//
                                                                                                         .arguments(List.of(//
                                                                                                                 Argument.builder()//
                                                                                                                         .name("java.util.Date")//
@@ -373,10 +376,7 @@ public class JwtConfigsGenerators {
                                                                                                                         .invoked(true)//
                                                                                                                         .invokes(List.of(//
                                                                                                                                 JavaMethodInvocationExpression.MethodInvoke.builder()//
-                                                                                                                                        .method("java.lang.System")//
-                                                                                                                                        .arguments(List.of(Argument.builder()//
-                                                                                                                                                .name("currentTimeMillis")//
-                                                                                                                                                .build()))//
+                                                                                                                                        .method("java.lang.System.currentTimeMillis")//
                                                                                                                                         .build()))//
                                                                                                                         .build()))//
                                                                                                         .build()))//
