@@ -3,6 +3,7 @@ package solutions.thex.smoothy.code.expression;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import solutions.thex.smoothy.code.Argument;
 import solutions.thex.smoothy.code.JavaExpression;
 import solutions.thex.smoothy.code.JavaSourceCodeWriter;
 import solutions.thex.smoothy.code.formatting.IndentingWriter;
@@ -28,24 +29,24 @@ public class JavaMethodInvocationExpression implements JavaExpression {
     public static final class MethodInvoke {
 
         @Builder.Default
-        private final List<String> arguments = new LinkedList<>();
+        private final List<Argument> arguments = new LinkedList<>();
         @Builder.Default
         private final boolean breakLine = false;
+        @Builder.Default
+        private final boolean lambda = false;
         private String method;
 
         public String render() {
-            return method + "(" +//
-                    arguments.stream().map(argument -> {
-                        if ((argument.startsWith("\"")))
-                            return argument;
-                        else if (argument.endsWith("class"))
-                            return argument.split("\\.")[argument.split("\\.").length - 2] + ".class";
-                        else if (argument.contains(".") && JavaSourceCodeWriter.isUpperCase(argument.split("\\.")[argument.split("\\.").length - 1]))
-                            return argument.split("\\.")[argument.split("\\.").length - 2] + "." + argument.split("\\.")[argument.split("\\.").length - 1];
-
-                        return JavaSourceCodeWriter.getUnqualifiedName(argument);
-                    }).collect(Collectors.joining(", "))//
-                    + ")" + printTabIfBreakLine();
+            return method +//
+                    ((lambda) ?//
+                            ""//
+                            ://
+                            ("(" +//
+                                    arguments.stream()//
+                                            .map(Argument::render)//
+                                            .collect(Collectors.joining(", "))//
+                                    + ")"))//
+                    + printTabIfBreakLine();
         }
 
         private String printTabIfBreakLine() {

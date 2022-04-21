@@ -200,6 +200,7 @@ public class JavaSourceCodeWriter {
                                 .flatMap(List::stream)//
                                 .map(JavaMethodInvocationExpression.MethodInvoke::getArguments)//
                                 .flatMap(List::stream)//
+                                .map(Argument::getName)
                                 .map(str -> {
                                     if (str.startsWith("\""))
                                         return "";
@@ -221,7 +222,11 @@ public class JavaSourceCodeWriter {
     }
 
     public static boolean isUpperCase(String str) {
-        return str.length() > 0 && Character.isUpperCase(str.charAt(0));
+        for (char c : str.toCharArray()) {
+            if (!Character.isUpperCase(c))
+                return false;
+        }
+        return true;
     }
 
     private static Collection<String> determineImports(Annotation annotation) {
