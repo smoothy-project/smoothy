@@ -9,4 +9,6 @@ public interface JavaStatement {
 
     void render(IndentingWriter writer);
 
+    JavaExpression getExpression();
+
 }

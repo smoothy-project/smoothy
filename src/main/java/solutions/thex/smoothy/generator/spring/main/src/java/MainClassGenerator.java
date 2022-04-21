@@ -1,9 +1,6 @@
 package solutions.thex.smoothy.generator.spring.main.src.java;
 
-import solutions.thex.smoothy.code.Annotation;
-import solutions.thex.smoothy.code.JavaCompilationUnit;
-import solutions.thex.smoothy.code.JavaType;
-import solutions.thex.smoothy.code.Parameter;
+import solutions.thex.smoothy.code.*;
 import solutions.thex.smoothy.code.declaration.JavaMethodDeclaration;
 import solutions.thex.smoothy.code.declaration.JavaTypeDeclaration;
 import solutions.thex.smoothy.code.expression.JavaMethodInvocationExpression;
@@ -46,7 +43,12 @@ public class MainClassGenerator {
                                                                                 JavaMethodInvocationExpression.MethodInvoke.builder()//
                                                                                         .method("run")//
                                                                                         .arguments(List.of(//
-                                                                                                StringFormatter.toPascalCase(name.concat("Application")).concat(".class"), "args"))//
+                                                                                                Argument.builder()//
+                                                                                                        .name(StringFormatter.toPascalCase(name.concat("Application")).concat(".class"))//
+                                                                                                        .build(),//
+                                                                                                Argument.builder()//
+                                                                                                        .name("args")//
+                                                                                                        .build()))//
                                                                                         .build()))//
                                                                         .build())//
                                                                 .build()))//

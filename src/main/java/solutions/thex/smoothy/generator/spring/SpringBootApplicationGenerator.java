@@ -11,7 +11,7 @@ import solutions.thex.smoothy.code.JavaSourceCodeWriter;
 import solutions.thex.smoothy.generator.ApplicationDescription;
 import solutions.thex.smoothy.generator.spring.conf.SmoothyDotConfFileGenerator;
 import solutions.thex.smoothy.generator.spring.main.src.java.MainClassGenerator;
-import solutions.thex.smoothy.generator.spring.main.src.java.security.SecurityConfigGenerator;
+import solutions.thex.smoothy.generator.spring.main.src.java.security.jwt.JwtConfigsGenerators;
 import solutions.thex.smoothy.generator.spring.main.src.resources.ApplicationPropertiesFileGenerator;
 import solutions.thex.smoothy.generator.spring.main.test.MainClassTestsGenerator;
 import solutions.thex.smoothy.generator.spring.pom.PomFileGenerator;
@@ -44,7 +44,8 @@ public class SpringBootApplicationGenerator {
     private List<JavaCompilationUnit> generateCompilationUnits(ApplicationDescription application) {
         List<JavaCompilationUnit> compilationUnits = new ArrayList<>();
         compilationUnits.add(MainClassGenerator.generate(application.getName()));
-        //compilationUnits.addAll(SecurityConfigGenerator.generate(application.getName()));
+//        compilationUnits.addAll(SecurityConfigGenerator.generate(application.getName()));
+        compilationUnits.addAll(JwtConfigsGenerators.generate(application.getName()));
         return compilationUnits;
     }
 

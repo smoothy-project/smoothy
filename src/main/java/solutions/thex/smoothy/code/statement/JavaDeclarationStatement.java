@@ -1,19 +1,23 @@
 package solutions.thex.smoothy.code.statement;
 
 import lombok.Builder;
-import lombok.Getter;
 import solutions.thex.smoothy.code.JavaExpression;
 import solutions.thex.smoothy.code.JavaSourceCodeWriter;
 import solutions.thex.smoothy.code.JavaStatement;
 import solutions.thex.smoothy.code.formatting.IndentingWriter;
 
 
-public record JavaDeclarationStatement(@Getter int modifiers, @Getter String name, @Getter String type,//
-                                       @Getter boolean initialized,
-                                       @Getter JavaExpression expression) implements JavaStatement {
+public record JavaDeclarationStatement(int modifiers, String name, String type,//
+                                       boolean initialized,
+                                       JavaExpression expression) implements JavaStatement {
 
     @Builder
     public JavaDeclarationStatement {
+    }
+
+    @Override
+    public JavaExpression getExpression() {
+        return expression;
     }
 
     @Override

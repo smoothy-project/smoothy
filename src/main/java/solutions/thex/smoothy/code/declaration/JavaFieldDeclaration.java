@@ -42,6 +42,12 @@ public final class JavaFieldDeclaration implements Annotatable, JavaDeclaration 
 		if (isInitialized()) {
 			writer.print(" = ");
 			writer.print(String.valueOf(getValue()));
+			if(getValue() instanceof Long)
+				writer.print("L");
+			else if(getValue() instanceof Float)
+				writer.print("F");
+			else if(getValue() instanceof Double)
+				writer.print("D");
 		}
 		writer.println(";");
 		writer.println();

@@ -6,6 +6,14 @@
 
 {literal}spring.application.name={/literal}{$name}{literal}
 server.port={/literal}{$port}{literal}
+server.address=127.0.0.1
 server.compression.enabled=true
-server.http2.enabled=true{/literal}
+server.compression.mime-types=*/*
+server.http2.enabled=true
+
+jwt.token.validity=18000
+jwt.signing.key=signingkey
+jwt.authorities.key=roles
+jwt.token.prefix=Bearer
+jwt.header.string=Authorization{/literal}
 {/template}
