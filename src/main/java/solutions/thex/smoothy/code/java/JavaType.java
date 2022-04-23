@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.code;
+package solutions.thex.smoothy.code.java;
 
 public enum JavaType {
 

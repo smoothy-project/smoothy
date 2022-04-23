@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.code;
+package solutions.thex.smoothy.code.java;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,8 +26,8 @@ public final class Annotation {
 		private final List<String> values = new LinkedList<>();
 	}
 
-	private final String name;
 	@Default
 	private final List<Attribute> attributes = new LinkedList<>();
+	private final String name;
 
 }

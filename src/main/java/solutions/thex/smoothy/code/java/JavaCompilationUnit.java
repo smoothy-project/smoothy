@@ -1,9 +1,9 @@
-package solutions.thex.smoothy.code;
+package solutions.thex.smoothy.code.java;
 
 import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.Getter;
-import solutions.thex.smoothy.code.declaration.JavaTypeDeclaration;
+import solutions.thex.smoothy.code.CompilationUnit;
 import solutions.thex.smoothy.code.formatting.IndentingWriter;
 
 import java.util.ArrayList;
