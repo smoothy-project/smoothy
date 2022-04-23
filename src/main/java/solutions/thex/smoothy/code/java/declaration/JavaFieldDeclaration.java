@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.code.declaration;
+package solutions.thex.smoothy.code.java.declaration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,10 +6,10 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Builder.Default;
-import solutions.thex.smoothy.code.Annotatable;
-import solutions.thex.smoothy.code.Annotation;
-import solutions.thex.smoothy.code.JavaDeclaration;
-import solutions.thex.smoothy.code.JavaSourceCodeWriter;
+import solutions.thex.smoothy.code.java.Annotatable;
+import solutions.thex.smoothy.code.java.Annotation;
+import solutions.thex.smoothy.code.Declaration;
+import solutions.thex.smoothy.code.java.JavaSourceCodeWriter;
 import solutions.thex.smoothy.code.formatting.IndentingWriter;
 
 /**
@@ -17,7 +17,7 @@ import solutions.thex.smoothy.code.formatting.IndentingWriter;
  */
 @Builder
 @Data
-public final class JavaFieldDeclaration implements Annotatable, JavaDeclaration {
+public final class JavaFieldDeclaration implements Annotatable, Declaration {
 
 	@Default
 	private final List<Annotation> annotations = new ArrayList<>();

@@ -1,10 +1,15 @@
-package solutions.thex.smoothy.code.declaration;
+package solutions.thex.smoothy.code.java.declaration;
 
 import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.Data;
-import solutions.thex.smoothy.code.*;
+import solutions.thex.smoothy.code.Declaration;
+import solutions.thex.smoothy.code.Statement;
 import solutions.thex.smoothy.code.formatting.IndentingWriter;
+import solutions.thex.smoothy.code.java.Annotatable;
+import solutions.thex.smoothy.code.java.Annotation;
+import solutions.thex.smoothy.code.java.JavaSourceCodeWriter;
+import solutions.thex.smoothy.code.java.Parameter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,14 +22,14 @@ import java.util.stream.Collectors;
  */
 @Builder
 @Data
-public final class JavaMethodDeclaration implements Annotatable, JavaDeclaration {
+public final class JavaMethodDeclaration implements Annotatable, Declaration {
 
     @Default
     private final List<Annotation> annotations = new ArrayList<>();
     @Default
     private final List<Parameter> parameters = new LinkedList<>();
     @Default
-    private final List<JavaStatement> statements = new LinkedList<>();
+    private final List<Statement> statements = new LinkedList<>();
     @Default
     private final List<String> exceptions = new LinkedList<>();
     @Default
@@ -75,10 +80,7 @@ public final class JavaMethodDeclaration implements Annotatable, JavaDeclaration
             writer.println(") {");
         }
         writer.indented(() -> {
-            List<JavaStatement> statements = getStatements();
-            for (JavaStatement statement : statements) {
-                statement.render(writer);
-            }
+            getStatements().forEach(statement -> writer.println(statement.render()));
         });
         writer.println("}");
         writer.println();
