@@ -5,8 +5,8 @@ import solutions.thex.smoothy.code.formatting.IndentingWriter;
 /**
  * A Java expression.
  */
-public interface JavaExpression {
+public interface Expression {
 
-    void render(IndentingWriter writer);
+    String render();
 
 }
