@@ -2,7 +2,7 @@ package solutions.thex.smoothy.code.java.statement;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import solutions.thex.smoothy.code.java.MethodInvoke;
+import solutions.thex.smoothy.code.java.JavaMethodInvoke;
 import solutions.thex.smoothy.code.java.expression.JavaMethodInvocationExpression;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class JavaExpressionStatementTests {
                 .expression(JavaMethodInvocationExpression.builder()//
                         .target("variable")//
                         .invokes(List.of(//
-                                MethodInvoke.builder()//
+                                JavaMethodInvoke.builder()//
                                         .method("method")//
                                         .build()))//
                         .build())//

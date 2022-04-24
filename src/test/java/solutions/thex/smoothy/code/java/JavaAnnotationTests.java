@@ -8,14 +8,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class AnnotationTests {
+public class JavaAnnotationTests {
 
-    private Annotation annotation;
+    private JavaAnnotation annotation;
 
     @Test
     void annotation_should_render_correctly() {
         // Given
-        annotation = Annotation.builder()//
+        annotation = JavaAnnotation.builder()//
                 .name("Test")//
                 .build();
         // When
@@ -28,10 +28,10 @@ public class AnnotationTests {
     @Test
     void annotation_with_one_attribute_should_render_correctly() {
         // Given
-        annotation = Annotation.builder()//
+        annotation = JavaAnnotation.builder()//
                 .name("Test")//
                 .attributes(List.of(//
-                        Annotation.Attribute.builder()//
+                        JavaAnnotation.Attribute.builder()//
                                 .type(String.class)//
                                 .values(List.of("test"))//
                                 .build()))//
@@ -46,10 +46,10 @@ public class AnnotationTests {
     @Test
     void annotation_with_one_attribute_and_multiple_values_should_render_correctly() {
         // Given
-        annotation = Annotation.builder()//
+        annotation = JavaAnnotation.builder()//
                 .name("Test")//
                 .attributes(List.of(//
-                        Annotation.Attribute.builder()//
+                        JavaAnnotation.Attribute.builder()//
                                 .type(String.class)//
                                 .values(List.of("test1", "test2"))//
                                 .build()))//
@@ -64,15 +64,15 @@ public class AnnotationTests {
     @Test
     void annotation_with_multiple_attributes_should_render_correctly() {
         // Given
-        annotation = Annotation.builder()//
+        annotation = JavaAnnotation.builder()//
                 .name("Test")//
                 .attributes(List.of(//
-                        Annotation.Attribute.builder()//
+                        JavaAnnotation.Attribute.builder()//
                                 .name("attr1")
                                 .type(String.class)//
                                 .values(List.of("test1"))//
                                 .build(),//
-                        Annotation.Attribute.builder()//
+                        JavaAnnotation.Attribute.builder()//
                                 .name("attr2")
                                 .type(String.class)//
                                 .values(List.of("test2"))//

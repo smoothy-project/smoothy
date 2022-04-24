@@ -3,7 +3,7 @@ package solutions.thex.smoothy.code.java.expression;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import solutions.thex.smoothy.code.java.JavaOperand;
-import solutions.thex.smoothy.code.java.MethodInvoke;
+import solutions.thex.smoothy.code.java.JavaMethodInvoke;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class JavaMethodInvocationExpressionTests {
         javaMethodInvocationExpression = JavaMethodInvocationExpression.builder()//
                 .target("test")//
                 .invokes(List.of(//
-                        MethodInvoke.builder()//
+                        JavaMethodInvoke.builder()//
                                 .method("method")//
                                 .build()))//
                 .build();
@@ -39,7 +39,7 @@ public class JavaMethodInvocationExpressionTests {
                 .target("test")//
                 .operand(JavaOperand.PLUS)
                 .invokes(List.of(//
-                        MethodInvoke.builder()//
+                        JavaMethodInvoke.builder()//
                                 .method("method")//
                                 .build()))//
                 .build();
@@ -57,7 +57,7 @@ public class JavaMethodInvocationExpressionTests {
         javaMethodInvocationExpression = JavaMethodInvocationExpression.builder()//
                 .target("test")//
                 .invokes(List.of(//
-                        MethodInvoke.builder()//
+                        JavaMethodInvoke.builder()//
                                 .method("method")//
                                 .arguments(List.of(
                                         JavaVariableExpression.builder()//
@@ -79,7 +79,7 @@ public class JavaMethodInvocationExpressionTests {
         javaMethodInvocationExpression = JavaMethodInvocationExpression.builder()//
                 .target("test")//
                 .invokes(List.of(//
-                        MethodInvoke.builder()//
+                        JavaMethodInvoke.builder()//
                                 .method("method")//
                                 .arguments(List.of(
                                         JavaVariableExpression.builder()//
@@ -104,13 +104,13 @@ public class JavaMethodInvocationExpressionTests {
         javaMethodInvocationExpression = JavaMethodInvocationExpression.builder()//
                 .target("test1")//
                 .invokes(List.of(//
-                        MethodInvoke.builder()//
+                        JavaMethodInvoke.builder()//
                                 .method("method1")//
                                 .arguments(List.of(//
                                         JavaMethodInvocationExpression.builder()//
                                                 .target("test2")//
                                                 .invokes(List.of(//
-                                                        MethodInvoke.builder()//
+                                                        JavaMethodInvoke.builder()//
                                                                 .method("method2")//
                                                                 .build()))//
                                                 .build()))//
@@ -130,10 +130,10 @@ public class JavaMethodInvocationExpressionTests {
         javaMethodInvocationExpression = JavaMethodInvocationExpression.builder()//
                 .target("test")//
                 .invokes(List.of(//
-                        MethodInvoke.builder()//
+                        JavaMethodInvoke.builder()//
                                 .method("method1")//
                                 .build(),//
-                        MethodInvoke.builder()//
+                        JavaMethodInvoke.builder()//
                                 .method("method2")//
                                 .build()))//
                 .build();

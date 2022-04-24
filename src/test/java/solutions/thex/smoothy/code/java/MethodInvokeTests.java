@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 public class MethodInvokeTests {
 
-    private MethodInvoke methodInvoke;
+    private JavaMethodInvoke methodInvoke;
 
     @Test
     void methodInvoke_should_render_correct_expression() {
         // Given
-        methodInvoke = MethodInvoke.builder()//
+        methodInvoke = JavaMethodInvoke.builder()//
                 .method("method")//
                 .build();
         // When
@@ -29,7 +29,7 @@ public class MethodInvokeTests {
     @Test
     void methodInvoke_with_breakLine_should_render_correct_expression() {
         // Given
-        methodInvoke = MethodInvoke.builder()//
+        methodInvoke = JavaMethodInvoke.builder()//
                 .method("method")//
                 .breakLine(true)//
                 .build();
@@ -43,7 +43,7 @@ public class MethodInvokeTests {
     @Test
     void methodInvoke_with_one_argument_should_render_correct_expression() {
         // Given
-        methodInvoke = MethodInvoke.builder()//
+        methodInvoke = JavaMethodInvoke.builder()//
                 .method("method")//
                 .arguments(List.of(//
                         JavaVariableExpression.builder()//
@@ -60,7 +60,7 @@ public class MethodInvokeTests {
     @Test
     void methodInvoke_with_multiple_arguments_should_render_correct_expression() {
         // Given
-        methodInvoke = MethodInvoke.builder()//
+        methodInvoke = JavaMethodInvoke.builder()//
                 .method("method")//
                 .arguments(List.of(//
                         JavaVariableExpression.builder()//

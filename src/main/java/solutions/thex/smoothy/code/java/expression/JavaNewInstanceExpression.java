@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import solutions.thex.smoothy.code.Expression;
 import solutions.thex.smoothy.code.java.JavaSourceCodeWriter;
-import solutions.thex.smoothy.code.java.MethodInvoke;
+import solutions.thex.smoothy.code.java.JavaMethodInvoke;
 import solutions.thex.smoothy.code.java.Operable;
 
 import java.util.LinkedList;
@@ -19,7 +19,7 @@ public class JavaNewInstanceExpression extends Operable implements Expression {
     @Builder.Default
     private final List<Expression> arguments = new LinkedList<>();
     @Builder.Default
-    private final List<MethodInvoke> invokes = new LinkedList<>();
+    private final List<JavaMethodInvoke> invokes = new LinkedList<>();
     private final String name;
 
     @Override
@@ -28,7 +28,7 @@ public class JavaNewInstanceExpression extends Operable implements Expression {
                 + "("//
                 + this.arguments.stream().map(Expression::render).collect(Collectors.joining(", "))//
                 + ")"//
-                + this.invokes.stream().map(MethodInvoke::render).collect(Collectors.joining())//
+                + this.invokes.stream().map(JavaMethodInvoke::render).collect(Collectors.joining())//
                 + super.render();
     }
 

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 @Builder
 @Getter
-public final class Annotation {
+public final class JavaAnnotation {
 
     /**
      * Define an attribute of an annotation.
@@ -64,7 +64,7 @@ public final class Annotation {
     public String render() {
         StringBuilder annotation = new StringBuilder();
         annotation.append("@").append(JavaSourceCodeWriter.getUnqualifiedName(this.name));
-        List<Annotation.Attribute> attributes = this.getAttributes();
+        List<JavaAnnotation.Attribute> attributes = this.getAttributes();
         if (!attributes.isEmpty()) {
             annotation.append("(");
             if (attributes.get(0).getName() != null) {

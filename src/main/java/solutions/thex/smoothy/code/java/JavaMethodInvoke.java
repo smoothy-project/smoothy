@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Builder
 @Getter
 @ToString
-public final class MethodInvoke {
+public final class JavaMethodInvoke {
 
     @Builder.Default
     private final List<Expression> arguments = new LinkedList<>();

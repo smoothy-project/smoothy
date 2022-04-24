@@ -3,7 +3,7 @@ package solutions.thex.smoothy.code.java.expression;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import solutions.thex.smoothy.code.java.JavaOperand;
-import solutions.thex.smoothy.code.java.MethodInvoke;
+import solutions.thex.smoothy.code.java.JavaMethodInvoke;
 
 import java.util.List;
 
@@ -73,7 +73,7 @@ public class JavaNewInstanceExpressionTests {
                         JavaMethodInvocationExpression.builder()//
                                 .target("someObject")//
                                 .invokes(List.of(//
-                                        MethodInvoke.builder()//
+                                        JavaMethodInvoke.builder()//
                                                 .method("getValue")//
                                                 .arguments(List.of(//
                                                         JavaVariableExpression.builder()//
@@ -118,7 +118,7 @@ public class JavaNewInstanceExpressionTests {
         javaNewInstanceExpression = JavaNewInstanceExpression.builder()//
                 .name("java.util.Date")//
                 .invokes(List.of(//
-                        MethodInvoke.builder()//
+                        JavaMethodInvoke.builder()//
                                 .method("after")//
                                 .arguments(List.of(//
                                         JavaNewInstanceExpression.builder()//
@@ -141,7 +141,7 @@ public class JavaNewInstanceExpressionTests {
                 .name("java.util.Date")//
                 .operand(JavaOperand.AND)
                 .invokes(List.of(//
-                        MethodInvoke.builder()//
+                        JavaMethodInvoke.builder()//
                                 .method("after")//
                                 .arguments(List.of(//
                                         JavaNewInstanceExpression.builder()//
@@ -163,10 +163,10 @@ public class JavaNewInstanceExpressionTests {
         javaNewInstanceExpression = JavaNewInstanceExpression.builder()//
                 .name("java.util.Date")//
                 .invokes(List.of(//
-                        MethodInvoke.builder()//
+                        JavaMethodInvoke.builder()//
                                 .method("after")//
                                 .build(),//
-                        MethodInvoke.builder()//
+                        JavaMethodInvoke.builder()//
                                 .method("before")//
                                 .build()))//
                 .build();

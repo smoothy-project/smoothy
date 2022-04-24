@@ -3,7 +3,7 @@ package solutions.thex.smoothy.code.java.expression;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import solutions.thex.smoothy.code.java.JavaOperand;
-import solutions.thex.smoothy.code.java.MethodInvoke;
+import solutions.thex.smoothy.code.java.JavaMethodInvoke;
 
 import java.util.List;
 
@@ -90,7 +90,7 @@ public class JavaBraceletExpressionTests {
                                         JavaNewInstanceExpression.builder()//
                                                 .name("java.util.Date")//
                                                 .invokes(List.of(//
-                                                        MethodInvoke.builder()//
+                                                        JavaMethodInvoke.builder()//
                                                                 .method("after")//
                                                                 .arguments(List.of(//
                                                                         JavaNewInstanceExpression.builder()//
