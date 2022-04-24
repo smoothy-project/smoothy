@@ -14,7 +14,7 @@ public class JavaDeclarationStatementTests {
     private JavaDeclarationStatement javaDeclarationStatement;
 
     @Test
-    void javaAssignStatement_not_initialized_should_render_correct_statement() {
+    void javaDeclarationStatement_not_initialized_should_render_correct_statement() {
         // Given
         javaDeclarationStatement = JavaDeclarationStatement.builder()//
                 .name("variable")//
@@ -29,7 +29,7 @@ public class JavaDeclarationStatementTests {
     }
 
     @Test
-    void javaAssignStatement_with_modifier_should_render_correct_statement() {
+    void javaDeclarationStatement_with_modifier_should_render_correct_statement() {
         // Given
         javaDeclarationStatement = JavaDeclarationStatement.builder()//
                 .modifiers(Modifier.FINAL)//
@@ -45,7 +45,7 @@ public class JavaDeclarationStatementTests {
     }
 
     @Test
-    void javaAssignStatement_is_initialized_should_render_correct_statement() {
+    void javaDeclarationStatement_is_initialized_should_render_correct_statement() {
         // Given
         javaDeclarationStatement = JavaDeclarationStatement.builder()//
                 .name("variable")//
