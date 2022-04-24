@@ -26,7 +26,7 @@ public class JavaMethodInvocationExpression extends Operable implements Expressi
     @Override
     public String render() {
         return JavaSourceCodeWriter.getUnqualifiedName(this.target)//
-                + invokes.stream().map(MethodInvoke::render).collect(Collectors.joining("")) + super.render();
+                + invokes.stream().map(MethodInvoke::render).collect(Collectors.joining()) + super.render();
     }
 
 }

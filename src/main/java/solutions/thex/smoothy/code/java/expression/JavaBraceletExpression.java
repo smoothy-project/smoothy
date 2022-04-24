@@ -21,7 +21,7 @@ public class JavaBraceletExpression extends Operable implements Expression {
 
     @Override
     public String render() {
-        return ((bracelet) ? "(" : "") + expressions.stream().map(Expression::render).collect(Collectors.joining("")) + ((bracelet) ? ")" : "");
+        return ((bracelet) ? "(" : "") + expressions.stream().map(Expression::render).collect(Collectors.joining()) + ((bracelet) ? ")" : "");
     }
 
 }

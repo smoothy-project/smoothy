@@ -28,7 +28,7 @@ public class JavaNewInstanceExpression extends Operable implements Expression {
                 + "("//
                 + this.arguments.stream().map(Expression::render).collect(Collectors.joining(", "))//
                 + ")"//
-                + this.invokes.stream().map(MethodInvoke::render).collect(Collectors.joining(""))//
+                + this.invokes.stream().map(MethodInvoke::render).collect(Collectors.joining())//
                 + super.render();
     }
 
