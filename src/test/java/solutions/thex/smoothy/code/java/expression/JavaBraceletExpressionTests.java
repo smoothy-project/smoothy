@@ -16,7 +16,7 @@ public class JavaBraceletExpressionTests {
     private JavaBraceletExpression javaBraceletExpression;
 
     @Test
-    void javaBraceletExpression_with_one_javaPlainValueExpression_should_render_correct_expression() {
+    void javaBraceletExpression_with_one_expression_should_render_correct_expression() {
         // Given
         javaBraceletExpression = JavaBraceletExpression.builder()//
                 .expressions(List.of(//
@@ -34,7 +34,7 @@ public class JavaBraceletExpressionTests {
     }
 
     @Test
-    void javaBraceletExpression_with_one_javaPlainValueExpression_without_bracelet_should_render_correct_expression() {
+    void javaBraceletExpression_with_one_expression_without_bracelet_should_render_correct_expression() {
         // Given
         javaBraceletExpression = JavaBraceletExpression.builder()//
                 .bracelet(false)//
@@ -50,24 +50,6 @@ public class JavaBraceletExpressionTests {
 
         // Then
         assertEquals("1", expression);
-    }
-
-    @Test
-    void javaBraceletExpression_with_one_javaDotClassExpression_should_render_correct_expression() {
-        // Given
-        javaBraceletExpression = JavaBraceletExpression.builder()//
-                .expressions(List.of(//
-                        JavaDotClassExpression.builder()//
-                                .name("JavaDotClassExpression") //
-                                .build()//
-                ))
-                .build();
-
-        // When
-        String expression = javaBraceletExpression.render();
-
-        // Then
-        assertEquals("(JavaDotClassExpression.class)", expression);
     }
 
     @Test
