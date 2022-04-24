@@ -2,7 +2,7 @@ package solutions.thex.smoothy.code.java.statement;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import solutions.thex.smoothy.code.java.expression.JavaPlainValueExpression;
+import solutions.thex.smoothy.code.java.expression.JavaValueExpression;
 
 import java.lang.reflect.Modifier;
 
@@ -51,8 +51,9 @@ public class JavaDeclarationStatementTests {
                 .name("variable")//
                 .type("String")//
                 .initialized(true)//
-                .expression(JavaPlainValueExpression.builder()//
-                        .value("\"value\"")//
+                .expression(JavaValueExpression.builder()//
+                        .value("value")//
+                        .type(String.class)//
                         .build())//
                 .build();
 

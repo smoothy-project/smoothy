@@ -2,7 +2,7 @@ package solutions.thex.smoothy.code.java.statement;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import solutions.thex.smoothy.code.java.expression.JavaPlainValueExpression;
+import solutions.thex.smoothy.code.java.expression.JavaVariableExpression;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,8 +16,8 @@ public class JavaAssignStatementTests {
         // Given
         javaAssignStatement = JavaAssignStatement.builder()//
                 .variable("variable")
-                .expression(JavaPlainValueExpression.builder()//
-                        .value("value")//
+                .expression(JavaVariableExpression.builder()//
+                        .variable("value")//
                         .build())//
                 .build();
 

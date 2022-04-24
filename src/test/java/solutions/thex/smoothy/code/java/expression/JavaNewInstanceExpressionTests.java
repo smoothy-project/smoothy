@@ -34,8 +34,8 @@ public class JavaNewInstanceExpressionTests {
         javaNewInstanceExpression = JavaNewInstanceExpression.builder()//
                 .name("Test")//
                 .arguments(List.of(//
-                        JavaPlainValueExpression.builder()//
-                                .value("1")//
+                        JavaVariableExpression.builder()//
+                                .variable("someVariable")//
                                 .build()))//
                 .build();
 
@@ -43,7 +43,7 @@ public class JavaNewInstanceExpressionTests {
         String expression = javaNewInstanceExpression.render();
 
         // Then
-        assertEquals("new Test(1)", expression);
+        assertEquals("new Test(someVariable)", expression);
     }
 
     @Test
@@ -76,8 +76,8 @@ public class JavaNewInstanceExpressionTests {
                                         MethodInvoke.builder()//
                                                 .method("getValue")//
                                                 .arguments(List.of(//
-                                                        JavaPlainValueExpression.builder()//
-                                                                .value("1")//
+                                                        JavaVariableExpression.builder()//
+                                                                .variable("someVariable")//
                                                                 .build()))//
                                                 .build()))//
                                 .build()))//
@@ -87,7 +87,7 @@ public class JavaNewInstanceExpressionTests {
         String expression = javaNewInstanceExpression.render();
 
         // Then
-        assertEquals("new Test(someObject.getValue(1))", expression);
+        assertEquals("new Test(someObject.getValue(someVariable))", expression);
     }
 
     @Test
@@ -96,11 +96,12 @@ public class JavaNewInstanceExpressionTests {
         javaNewInstanceExpression = JavaNewInstanceExpression.builder()//
                 .name("Test")//
                 .arguments(List.of(//
-                        JavaPlainValueExpression.builder()//
+                        JavaValueExpression.builder()//
                                 .value("1")//
+                                .type(Integer.class)
                                 .build(),//
-                        JavaPlainValueExpression.builder()//
-                                .value("true")//
+                        JavaVariableExpression.builder()//
+                                .variable("true")//
                                 .build()))//
                 .build();
 

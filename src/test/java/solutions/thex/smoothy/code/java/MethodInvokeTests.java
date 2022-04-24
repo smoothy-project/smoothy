@@ -2,7 +2,7 @@ package solutions.thex.smoothy.code.java;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import solutions.thex.smoothy.code.java.expression.JavaPlainValueExpression;
+import solutions.thex.smoothy.code.java.expression.JavaVariableExpression;
 
 import java.util.List;
 
@@ -46,8 +46,8 @@ public class MethodInvokeTests {
         methodInvoke = MethodInvoke.builder()//
                 .method("method")//
                 .arguments(List.of(//
-                        JavaPlainValueExpression.builder()//
-                                .value("value")//
+                        JavaVariableExpression.builder()//
+                                .variable("value")//
                                 .build()))//
                 .build();
         // When
@@ -63,11 +63,11 @@ public class MethodInvokeTests {
         methodInvoke = MethodInvoke.builder()//
                 .method("method")//
                 .arguments(List.of(//
-                        JavaPlainValueExpression.builder()//
-                                .value("value1")//
+                        JavaVariableExpression.builder()//
+                                .variable("value1")//
                                 .build(),//
-                        JavaPlainValueExpression.builder()//
-                                .value("value2")//
+                        JavaVariableExpression.builder()//
+                                .variable("value2")//
                                 .build()))//
                 .build();
         // When

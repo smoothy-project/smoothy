@@ -20,10 +20,10 @@ public class JavaBraceletExpressionTests {
         // Given
         javaBraceletExpression = JavaBraceletExpression.builder()//
                 .expressions(List.of(//
-                        JavaPlainValueExpression.builder()//
-                                .value("1") //
-                                .build()//
-                ))
+                        JavaValueExpression.builder()//
+                                .value("1")//
+                                .type(Integer.class)//
+                                .build()))//
                 .build();
 
         // When
@@ -39,10 +39,10 @@ public class JavaBraceletExpressionTests {
         javaBraceletExpression = JavaBraceletExpression.builder()//
                 .bracelet(false)//
                 .expressions(List.of(//
-                        JavaPlainValueExpression.builder()//
-                                .value("1") //
-                                .build()//
-                ))
+                        JavaValueExpression.builder()//
+                                .value("1")//
+                                .type(Integer.class)//
+                                .build()))//
                 .build();
 
         // When
@@ -57,14 +57,15 @@ public class JavaBraceletExpressionTests {
         // Given
         javaBraceletExpression = JavaBraceletExpression.builder()//
                 .expressions(List.of(//
-                        JavaPlainValueExpression.builder()//
-                                .operand(JavaOperand.PLUS)
-                                .value("1") //
+                        JavaValueExpression.builder()//
+                                .value("1")//
+                                .type(Integer.class)//
+                                .operand(JavaOperand.PLUS)//
                                 .build(),//
-                        JavaPlainValueExpression.builder()//
-                                .value("2") //
-                                .build()//
-                ))
+                        JavaValueExpression.builder()//
+                                .value("2")//
+                                .type(Integer.class)//
+                                .build()))//
                 .build();
 
         // When
@@ -79,9 +80,10 @@ public class JavaBraceletExpressionTests {
         // Given
         javaBraceletExpression = JavaBraceletExpression.builder()//
                 .expressions(List.of(//
-                        JavaPlainValueExpression.builder()//
-                                .operand(JavaOperand.AND)
-                                .value("true") //
+                        JavaValueExpression.builder()//
+                                .value("true")//
+                                .type(Boolean.class)//
+                                .operand(JavaOperand.AND)//
                                 .build(),//
                         JavaBraceletExpression.builder()//
                                 .expressions(List.of(//

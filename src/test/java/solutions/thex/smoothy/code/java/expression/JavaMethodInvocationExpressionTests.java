@@ -60,8 +60,8 @@ public class JavaMethodInvocationExpressionTests {
                         MethodInvoke.builder()//
                                 .method("method")//
                                 .arguments(List.of(
-                                        JavaPlainValueExpression.builder()//
-                                                .value("arg1")//
+                                        JavaVariableExpression.builder()//
+                                                .variable("arg1")//
                                                 .build()))//
                                 .build()))//
                 .build();
@@ -82,11 +82,11 @@ public class JavaMethodInvocationExpressionTests {
                         MethodInvoke.builder()//
                                 .method("method")//
                                 .arguments(List.of(
-                                        JavaPlainValueExpression.builder()//
-                                                .value("arg1")//
+                                        JavaVariableExpression.builder()//
+                                                .variable("arg1")//
                                                 .build(),//
-                                        JavaPlainValueExpression.builder()//
-                                                .value("arg2")//
+                                        JavaVariableExpression.builder()//
+                                                .variable("arg2")//
                                                 .build()))//
                                 .build()))//
                 .build();
