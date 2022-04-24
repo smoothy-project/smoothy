@@ -60,7 +60,7 @@ public final class Annotation {
         return annotation.toString();
     }
 
-    private static String formatAnnotationAttribute(Annotation.Attribute attribute) {
+    private String formatAnnotationAttribute(Annotation.Attribute attribute) {
         List<String> values = attribute.getValues();
         if (attribute.getType().equals(Class.class)) {
             return formatValues(values, (value) -> String.format("%s.class", JavaSourceCodeWriter.getUnqualifiedName(value)));
@@ -78,7 +78,7 @@ public final class Annotation {
         return formatValues(values, (value) -> String.format("%s", value));
     }
 
-    private static String formatValues(List<String> values, Function<String, String> formatter) {
+    private String formatValues(List<String> values, Function<String, String> formatter) {
         String result = values.stream().map(formatter).collect(Collectors.joining(", "));
         return (values.size() > 1) ? "{ " + result + " }" : result;
     }
