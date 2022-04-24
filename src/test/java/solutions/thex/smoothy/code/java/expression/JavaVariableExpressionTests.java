@@ -7,29 +7,29 @@ import solutions.thex.smoothy.code.java.JavaOperand;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class JavaPlainValueExpressionTests {
+public class JavaVariableExpressionTests {
 
-    private JavaPlainValueExpression javaPlainValueExpression;
+    private JavaVariableExpression javaPlainValueExpression;
 
     @Test
     void javaPlainValueExpression_should_render_correct_expression() {
         // Given
-        javaPlainValueExpression = JavaPlainValueExpression.builder()//
-                .value("1")//
+        javaPlainValueExpression = JavaVariableExpression.builder()//
+                .variable("someVariable")//
                 .build();
 
         // When
         String expression = javaPlainValueExpression.render();
 
         // Then
-        assertEquals("1", expression);
+        assertEquals("someVariable", expression);
     }
 
     @Test
     void javaPlainValueExpression_with_operand_should_render_correct_expression() {
         // Given
-        javaPlainValueExpression = JavaPlainValueExpression.builder()//
-                .value("1")//
+        javaPlainValueExpression = JavaVariableExpression.builder()//
+                .variable("someVariable")//
                 .operand(JavaOperand.PLUS)//
                 .build();
 
@@ -37,7 +37,7 @@ public class JavaPlainValueExpressionTests {
         String expression = javaPlainValueExpression.render();
 
         // Then
-        assertEquals("1 + ", expression);
+        assertEquals("someVariable + ", expression);
     }
 
 }

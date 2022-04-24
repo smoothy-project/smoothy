@@ -7,13 +7,13 @@ import solutions.thex.smoothy.code.java.Operable;
 
 @SuperBuilder
 @Getter
-public class JavaPlainValueExpression extends Operable implements Expression {
+public class JavaVariableExpression extends Operable implements Expression {
 
-    private final String value;
+    private final String variable;
 
     @Override
     public String render() {
-        return value + super.render();
+        return variable + super.render();
     }
 
 }
