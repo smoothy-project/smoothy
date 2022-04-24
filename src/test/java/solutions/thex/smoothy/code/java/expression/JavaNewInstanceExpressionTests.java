@@ -156,4 +156,25 @@ public class JavaNewInstanceExpressionTests {
         assertEquals("new Date().after(new Date()) && ", expression);
     }
 
+    @Test
+    void javaNewInstanceExpression_with_multiple_invokes_should_render_correct_expression() {
+        // Given
+        javaNewInstanceExpression = JavaNewInstanceExpression.builder()//
+                .name("java.util.Date")//
+                .invokes(List.of(//
+                        MethodInvoke.builder()//
+                                .method("after")//
+                                .build(),//
+                        MethodInvoke.builder()//
+                                .method("before")//
+                                .build()))//
+                .build();
+
+        // When
+        String expression = javaNewInstanceExpression.render();
+
+        // Then
+        assertEquals("new Date().after().before()", expression);
+    }
+
 }
