@@ -23,10 +23,34 @@ public final class Annotation {
     @Builder
     @Getter
     public static final class Attribute {
-        private final String name;
-        private final Class<?> type;
+
         @Default
         private final List<String> values = new LinkedList<>();
+        private final String name;
+        private final Class<?> type;
+
+        public String render() {
+            if (this.type.equals(Class.class)) {
+                return formatValues(values, (value) -> String.format("%s.class", JavaSourceCodeWriter.getUnqualifiedName(value)));
+            }
+            if (Enum.class.isAssignableFrom(this.type)) {
+                return formatValues(values, (value) -> {
+                    String enumValue = value.substring(value.lastIndexOf(".") + 1);
+                    String enumClass = value.substring(0, value.lastIndexOf("."));
+                    return String.format("%s.%s", JavaSourceCodeWriter.getUnqualifiedName(enumClass), enumValue);
+                });
+            }
+            if (this.type.equals(String.class)) {
+                return formatValues(values, (value) -> String.format("\"%s\"", value));
+            }
+            return formatValues(values, (value) -> String.format("%s", value));
+        }
+
+        private String formatValues(List<String> values, Function<String, String> formatter) {
+            String result = values.stream().map(formatter).collect(Collectors.joining(", "));
+            return (values.size() > 1) ? "{ " + result + " }" : result;
+        }
+
     }
 
     @Default
@@ -45,42 +69,19 @@ public final class Annotation {
             annotation.append("(");
             if (attributes.get(0).getName() != null) {
                 if (attributes.size() == 1 && attributes.get(0).getName().equals("value")) {
-                    annotation.append(formatAnnotationAttribute(attributes.get(0)));
+                    annotation.append(attributes.get(0).render());
                 } else {
-                    annotation.append(attributes.stream()
-                            .map((attribute) -> attribute.getName() + " = " + formatAnnotationAttribute(attribute))
+                    annotation.append(attributes.stream()//
+                            .map((attribute) -> attribute.getName() + " = " + attribute.render())//
                             .collect(Collectors.joining(", ")));
                 }
             } else {
-                annotation.append(formatAnnotationAttribute(attributes.get(0)));
+                annotation.append(attributes.get(0).render());
             }
             annotation.append(")");
         }
         annotation.append("\n");
         return annotation.toString();
-    }
-
-    private String formatAnnotationAttribute(Annotation.Attribute attribute) {
-        List<String> values = attribute.getValues();
-        if (attribute.getType().equals(Class.class)) {
-            return formatValues(values, (value) -> String.format("%s.class", JavaSourceCodeWriter.getUnqualifiedName(value)));
-        }
-        if (Enum.class.isAssignableFrom(attribute.getType())) {
-            return formatValues(values, (value) -> {
-                String enumValue = value.substring(value.lastIndexOf(".") + 1);
-                String enumClass = value.substring(0, value.lastIndexOf("."));
-                return String.format("%s.%s", JavaSourceCodeWriter.getUnqualifiedName(enumClass), enumValue);
-            });
-        }
-        if (attribute.getType().equals(String.class)) {
-            return formatValues(values, (value) -> String.format("\"%s\"", value));
-        }
-        return formatValues(values, (value) -> String.format("%s", value));
-    }
-
-    private String formatValues(List<String> values, Function<String, String> formatter) {
-        String result = values.stream().map(formatter).collect(Collectors.joining(", "));
-        return (values.size() > 1) ? "{ " + result + " }" : result;
     }
 
 }
