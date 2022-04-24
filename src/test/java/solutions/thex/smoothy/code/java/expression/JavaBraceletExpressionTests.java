@@ -16,7 +16,7 @@ public class JavaBraceletExpressionTests {
     private JavaBraceletExpression javaBraceletExpression;
 
     @Test
-    void javaPlainValueExpression_with_one_javaPlainValueExpression_should_render_correct_expression() {
+    void javaBraceletExpression_with_one_javaPlainValueExpression_should_render_correct_expression() {
         // Given
         javaBraceletExpression = JavaBraceletExpression.builder()//
                 .expressions(List.of(//
@@ -34,7 +34,7 @@ public class JavaBraceletExpressionTests {
     }
 
     @Test
-    void javaPlainValueExpression_with_one_javaPlainValueExpression_without_bracelet_should_render_correct_expression() {
+    void javaBraceletExpression_with_one_javaPlainValueExpression_without_bracelet_should_render_correct_expression() {
         // Given
         javaBraceletExpression = JavaBraceletExpression.builder()//
                 .bracelet(false)//
@@ -53,7 +53,7 @@ public class JavaBraceletExpressionTests {
     }
 
     @Test
-    void javaPlainValueExpression_with_one_javaDotClassExpression_should_render_correct_expression() {
+    void javaBraceletExpression_with_one_javaDotClassExpression_should_render_correct_expression() {
         // Given
         javaBraceletExpression = JavaBraceletExpression.builder()//
                 .expressions(List.of(//
@@ -71,7 +71,7 @@ public class JavaBraceletExpressionTests {
     }
 
     @Test
-    void javaPlainValueExpression_with_multiple_expressions_should_render_correct_expression() {
+    void javaBraceletExpression_with_multiple_expressions_should_render_correct_expression() {
         // Given
         javaBraceletExpression = JavaBraceletExpression.builder()//
                 .expressions(List.of(//
@@ -93,7 +93,7 @@ public class JavaBraceletExpressionTests {
     }
 
     @Test
-    void javaPlainValueExpression_with_nested_bracelet_should_render_correct_expression() {
+    void javaBraceletExpression_with_nested_bracelet_should_render_correct_expression() {
         // Given
         javaBraceletExpression = JavaBraceletExpression.builder()//
                 .expressions(List.of(//
