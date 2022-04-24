@@ -25,7 +25,7 @@ public class JavaAssignStatementTests {
         String statement = javaAssignStatement.render();
 
         // Then
-        assertEquals("variable = value", statement);
+        assertEquals("variable = value;", statement);
     }
 
 }

@@ -14,7 +14,7 @@ public record JavaAssignStatement(String variable,
 
     @Override
     public String render() {
-        return this.variable + " = " + this.expression.render();
+        return this.variable + " = " + this.expression.render() + ";";
     }
 
 }
