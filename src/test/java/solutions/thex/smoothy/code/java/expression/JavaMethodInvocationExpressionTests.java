@@ -2,10 +2,12 @@ package solutions.thex.smoothy.code.java.expression;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import solutions.thex.smoothy.code.java.JavaOperand;
 import solutions.thex.smoothy.code.java.JavaMethodInvoke;
+import solutions.thex.smoothy.code.java.JavaOperand;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -143,6 +145,75 @@ public class JavaMethodInvocationExpressionTests {
 
         // Then
         assertEquals("test.method1().method2()", expression);
+    }
+
+    @Test
+    void javaMethodInvocationExpression_should_return_correct_imports() {
+        // Given
+        javaMethodInvocationExpression = JavaMethodInvocationExpression.builder()//
+                .target("org.springframework.boot.SpringApplication")//
+                .invokes(List.of(//
+                        JavaMethodInvoke.builder()//
+                                .method("run")//
+                                .build()))//
+                .build();
+
+        // When
+        Set<String> imports = javaMethodInvocationExpression.imports();
+
+        // Then
+        assertEquals(1, imports.size());
+        assertEquals("org.springframework.boot.SpringApplication", imports.iterator().next());
+    }
+
+    @Test
+    void javaMethodInvocationExpression_with_argument_should_eliminate_same_imports_and_return_correct_imports() {
+        // Given
+        javaMethodInvocationExpression = JavaMethodInvocationExpression.builder()//
+                .target("org.springframework.boot.SpringApplication")//
+                .invokes(List.of(//
+                        JavaMethodInvoke.builder()//
+                                .method("run")//
+                                .arguments(List.of(//
+                                        JavaValueExpression.builder()//
+                                                .value("org.springframework.boot.SpringApplication")//
+                                                .type(Class.class)//
+                                                .build()))//
+                                .build()))//
+                .build();
+
+        // When
+        Set<String> imports = javaMethodInvocationExpression.imports();
+
+        // Then
+        assertEquals(1, imports.size());
+        assertEquals("org.springframework.boot.SpringApplication", imports.iterator().next());
+    }
+
+    @Test
+    void javaMethodInvocationExpression_with_argument_should_return_correct_imports() {
+        // Given
+        javaMethodInvocationExpression = JavaMethodInvocationExpression.builder()//
+                .target("org.springframework.boot.SpringApplication")//
+                .invokes(List.of(//
+                        JavaMethodInvoke.builder()//
+                                .method("run")//
+                                .arguments(List.of(//
+                                        JavaValueExpression.builder()//
+                                                .value("org.springframework.boot.autoconfigure.SpringBootApplication")//
+                                                .type(Class.class)//
+                                                .build()))//
+                                .build()))//
+                .build();
+
+        // When
+        Set<String> imports = javaMethodInvocationExpression.imports();
+        Iterator<String> iterator = imports.iterator();
+
+        // Then
+        assertEquals(2, imports.size());
+        assertEquals("org.springframework.boot.SpringApplication", iterator.next());
+        assertEquals("org.springframework.boot.autoconfigure.SpringBootApplication", iterator.next());
     }
 
 }

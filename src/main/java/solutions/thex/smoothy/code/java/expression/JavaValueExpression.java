@@ -6,6 +6,11 @@ import solutions.thex.smoothy.code.Expression;
 import solutions.thex.smoothy.code.java.JavaSourceCodeWriter;
 import solutions.thex.smoothy.code.java.Operable;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 @SuperBuilder
 @Getter
 public class JavaValueExpression extends Operable implements Expression {
@@ -28,6 +33,17 @@ public class JavaValueExpression extends Operable implements Expression {
             renderedValue = String.format("%s", this.value);
         }
         return renderedValue + super.render();
+    }
+
+    @Override
+    public Set<String> imports() {
+        List<String> imports = new ArrayList<>();
+        if (JavaSourceCodeWriter.requiresImport(this.value)) {
+            if (this.type == Class.class) imports.add(this.value);
+            if (Enum.class.isAssignableFrom(this.type))
+                imports.add(this.value.substring(0, this.value.lastIndexOf(".")));
+        }
+        return new LinkedHashSet<>(imports);
     }
 
 }

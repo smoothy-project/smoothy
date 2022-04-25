@@ -2,10 +2,12 @@ package solutions.thex.smoothy.code.java.expression;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import solutions.thex.smoothy.code.java.JavaOperand;
 import solutions.thex.smoothy.code.java.JavaMethodInvoke;
+import solutions.thex.smoothy.code.java.JavaOperand;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -15,7 +17,7 @@ public class JavaNewInstanceExpressionTests {
     private JavaNewInstanceExpression javaNewInstanceExpression;
 
     @Test
-    void javaNewInstanceExpression_with_should_render_correct_expression() {
+    void javaNewInstanceExpression_should_render_correct_expression() {
         // Given
         javaNewInstanceExpression = JavaNewInstanceExpression.builder()//
                 .name("Test")//
@@ -176,6 +178,66 @@ public class JavaNewInstanceExpressionTests {
 
         // Then
         assertEquals("new Date().after().before()", expression);
+    }
+
+    @Test
+    void javaNewInstanceExpression_should_return_correct_imports() {
+        // Given
+        javaNewInstanceExpression = JavaNewInstanceExpression.builder()//
+                .name("java.util.Date")//
+                .build();
+
+        // When
+        Set<String> imports = javaNewInstanceExpression.imports();
+
+        // Then
+        assertEquals(1, imports.size());
+        assertEquals("java.util.Date", imports.iterator().next());
+    }
+
+    @Test
+    void javaNewInstanceExpression_with_invokes_and_nested_javaNewInstanceExpression_should_eliminate_same_imports_and_return_correct_imports() {
+        // Given
+        javaNewInstanceExpression = JavaNewInstanceExpression.builder()//
+                .name("java.util.Date")//
+                .invokes(List.of(//
+                        JavaMethodInvoke.builder()//
+                                .method("after")//
+                                .arguments(List.of(//
+                                        JavaNewInstanceExpression.builder()//
+                                                .name("java.util.Date")//
+                                                .build()))//
+                                .build()))//
+                .build();
+
+        // When
+        Set<String> imports = javaNewInstanceExpression.imports();
+
+        // Then
+        assertEquals(1, imports.size());
+        assertEquals("java.util.Date", imports.iterator().next());
+    }
+
+    @Test
+    void javaNewInstanceExpression_should_with_argument_return_correct_imports() {
+        // Given
+        javaNewInstanceExpression = JavaNewInstanceExpression.builder()//
+                .name("java.util.Date")//
+                .arguments(List.of(//
+                        JavaValueExpression.builder()//
+                                .value("org.springframework.boot.SpringApplication")//
+                                .type(Class.class)//
+                                .build()))//
+                .build();
+
+        // When
+        Set<String> imports = javaNewInstanceExpression.imports();
+        Iterator<String> iterator = imports.iterator();
+
+        // Then
+        assertEquals(2, imports.size());
+        assertEquals("java.util.Date", iterator.next());
+        assertEquals("org.springframework.boot.SpringApplication", iterator.next());
     }
 
 }

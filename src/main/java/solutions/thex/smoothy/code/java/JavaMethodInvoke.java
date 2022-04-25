@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.ToString;
 import solutions.thex.smoothy.code.Expression;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Builder
@@ -26,6 +25,10 @@ public final class JavaMethodInvoke {
                 + arguments.stream().map(Expression::render).collect(Collectors.joining(", "))//
                 + ")"//
                 + printTabIfBreakLine();
+    }
+
+    public Set<String> imports() {
+        return this.arguments.stream().map(Expression::imports).flatMap(Collection::stream).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     private String getUnqualifiedName(String name) {

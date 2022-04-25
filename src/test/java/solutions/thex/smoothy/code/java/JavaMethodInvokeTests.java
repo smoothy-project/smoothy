@@ -2,14 +2,16 @@ package solutions.thex.smoothy.code.java;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import solutions.thex.smoothy.code.java.expression.JavaValueExpression;
 import solutions.thex.smoothy.code.java.expression.JavaVariableExpression;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class MethodInvokeTests {
+public class JavaMethodInvokeTests {
 
     private JavaMethodInvoke methodInvoke;
 
@@ -75,6 +77,26 @@ public class MethodInvokeTests {
 
         // Then
         assertEquals(".method(value1, value2)", expression);
+    }
+
+    @Test
+    void methodInvoke_should_return_correct_imports() {
+        // Given
+        methodInvoke = JavaMethodInvoke.builder()//
+                .method("method")//
+                .arguments(List.of(//
+                        JavaValueExpression.builder()//
+                                .value("org.springframework.boot.SpringApplication")//
+                                .type(Class.class)//
+                                .build()))//
+                .build();
+
+        // When
+        Set<String> imports = methodInvoke.imports();
+
+        // Then
+        assertEquals(1, imports.size());
+        assertEquals("org.springframework.boot.SpringApplication", imports.iterator().next());
     }
 
 }

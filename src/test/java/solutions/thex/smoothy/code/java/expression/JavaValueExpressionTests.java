@@ -6,6 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import solutions.thex.smoothy.code.java.JavaOperand;
 import solutions.thex.smoothy.code.java.JavaType;
 
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -64,7 +66,7 @@ public class JavaValueExpressionTests {
     void javaValueExpression_with_type_enum_should_render_correct_expression() {
         // Given
         javaValueExpression = JavaValueExpression.builder()//
-                .value("JavaType.INTERFACE")//
+                .value("solutions.thex.smoothy.code.java.JavaType.INTERFACE")//
                 .type(JavaType.class)//
                 .build();
 
@@ -73,6 +75,38 @@ public class JavaValueExpressionTests {
 
         // Then
         assertEquals("JavaType.INTERFACE", expression);
+    }
+
+    @Test
+    void javaValueExpression_with_type_class_should_return_correct_imports() {
+        // Given
+        javaValueExpression = JavaValueExpression.builder()//
+                .value("org.springframework.boot.SpringApplication")//
+                .type(Class.class)//
+                .build();
+
+        // When
+        Set<String> imports = javaValueExpression.imports();
+
+        // Then
+        assertEquals(1, imports.size());
+        assertEquals("org.springframework.boot.SpringApplication", imports.iterator().next());
+    }
+
+    @Test
+    void javaValueExpression_with_type_enum_should_return_correct_imports() {
+        // Given
+        javaValueExpression = JavaValueExpression.builder()//
+                .value("solutions.thex.smoothy.code.java.JavaType.INTERFACE")//
+                .type(JavaType.class)//
+                .build();
+
+        // When
+        Set<String> imports = javaValueExpression.imports();
+
+        // Then
+        assertEquals(1, imports.size());
+        assertEquals("solutions.thex.smoothy.code.java.JavaType", imports.iterator().next());
     }
 
 }
