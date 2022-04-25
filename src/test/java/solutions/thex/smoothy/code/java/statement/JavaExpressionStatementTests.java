@@ -4,8 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import solutions.thex.smoothy.code.java.JavaMethodInvoke;
 import solutions.thex.smoothy.code.java.expression.JavaMethodInvocationExpression;
+import solutions.thex.smoothy.code.java.expression.JavaValueExpression;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -32,6 +34,24 @@ public class JavaExpressionStatementTests {
 
         // Then
         assertEquals("variable.method();", statement);
+    }
+
+    @Test
+    void javaExpressionStatement_should_return_correct_imports() {
+        // Given
+        javaExpressionStatement = JavaExpressionStatement.builder()//
+                .expression(JavaValueExpression.builder()//
+                        .value("org.springframework.boot.SpringApplication")//
+                        .type(Class.class)//
+                        .build())//
+                .build();
+
+        // When
+        Set<String> imports = javaExpressionStatement.imports();
+
+        // Then
+        assertEquals(1, imports.size());
+        assertEquals("org.springframework.boot.SpringApplication", imports.iterator().next());
     }
 
 }

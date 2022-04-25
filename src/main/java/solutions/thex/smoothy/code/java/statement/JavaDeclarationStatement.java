@@ -6,6 +6,11 @@ import solutions.thex.smoothy.code.Statement;
 import solutions.thex.smoothy.code.java.JavaModifier;
 import solutions.thex.smoothy.code.java.JavaSourceCodeWriter;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 
 public record JavaDeclarationStatement(JavaModifier modifiers, String name, String type,//
                                        boolean initialized,
@@ -18,11 +23,19 @@ public record JavaDeclarationStatement(JavaModifier modifiers, String name, Stri
     @Override
     public String render() {
         StringBuilder str = new StringBuilder();
-        str.append(JavaSourceCodeWriter.writeModifiers(JavaModifier.FIELD_MODIFIERS, this.modifiers.getModifiers()));
+        if (modifiers != null) str.append(this.modifiers.render());
         str.append(JavaSourceCodeWriter.getUnqualifiedName(this.type)).append(" ").append(this.name);
         if (this.initialized) str.append(" = ").append(this.expression.render());
         str.append(";");
         return str.toString();
+    }
+
+    @Override
+    public Set<String> imports() {
+        List<String> imports = new ArrayList<>();
+        if (JavaSourceCodeWriter.requiresImport(this.type)) imports.add(this.type);
+        if (this.initialized) imports.addAll(this.expression.imports());
+        return new LinkedHashSet<>(imports);
     }
 
 }
