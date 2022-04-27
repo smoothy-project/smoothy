@@ -3,7 +3,6 @@ package solutions.thex.smoothy.code.formatting;
 import lombok.Builder;
 import lombok.Builder.Default;
 
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -23,14 +22,13 @@ public final class IndentingWriterFactory {
      * Create an {@link IndentingWriter} for the specified content and output.
      *
      * @param contentId the identifier of the content
-     * @param out       the output to use
      * @return a configured {@link IndentingWriter}
      */
-    public IndentingWriter createIndentingWriter(String contentId, OutputStream out) {
+    public IndentingWriter createIndentingWriter(String contentId) {
         Function<Integer, String> indentingStrategy = this.indentingStrategies.getOrDefault(contentId,//
                 this.defaultIndentingStrategy);
 
-        return new IndentingWriter(out, indentingStrategy);
+        return new IndentingWriter(indentingStrategy);
     }
 
 }
