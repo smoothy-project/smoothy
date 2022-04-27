@@ -11,7 +11,12 @@ public class Operable {
     private JavaOperand operand = null;
 
     public String render() {
-        return (operand != null) ? " " + operand.getSymbol() + " " : "";
+        if (operand != null) {
+            if (JavaOperand.NOT.equals(operand))
+                return operand.getSymbol();
+            return " " + operand.getSymbol() + " ";
+        }
+        return "";
     }
 
 }

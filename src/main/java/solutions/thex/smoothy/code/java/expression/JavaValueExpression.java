@@ -38,6 +38,8 @@ public class JavaValueExpression extends Operable implements Expression {
         } else {
             renderedValue = String.format("%s", this.value);
         }
+        if ("!".equals(super.render()))
+            return super.render() + renderedValue;
         return renderedValue + super.render();
     }
 
