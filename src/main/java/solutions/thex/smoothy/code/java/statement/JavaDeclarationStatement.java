@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public record JavaDeclarationStatement(JavaModifier modifiers, String name, String type,//
                                        boolean initialized,
-                                       Expression expression) implements Statement {
+                                       Expression expression, List<String> genericType) implements Statement {
 
     @Builder
     public JavaDeclarationStatement {
@@ -24,7 +25,14 @@ public record JavaDeclarationStatement(JavaModifier modifiers, String name, Stri
     public String render() {
         StringBuilder str = new StringBuilder();
         if (modifiers != null) str.append(this.modifiers.render());
-        str.append(JavaSourceCodeWriter.getUnqualifiedName(this.type)).append(" ").append(this.name);
+        str.append(JavaSourceCodeWriter.getUnqualifiedName(this.type));
+        if (this.genericType != null) {
+            str.append("<").append(this.genericType.stream()//
+                            .map(JavaSourceCodeWriter::getUnqualifiedName)//
+                            .collect(Collectors.joining(", ")))//
+                    .append("> ");
+        }
+        str.append(" ").append(this.name);
         if (this.initialized) str.append(" = ").append(this.expression.render());
         str.append(";");
         return str.toString();
