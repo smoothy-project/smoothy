@@ -2,7 +2,7 @@ package solutions.thex.smoothy.code.java.statement;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import solutions.thex.smoothy.code.java.JavaMethodInvoke;
+import solutions.thex.smoothy.code.java.expression.util.JavaMethodInvoke;
 import solutions.thex.smoothy.code.java.expression.JavaMethodInvocationExpression;
 import solutions.thex.smoothy.code.java.expression.JavaValueExpression;
 

@@ -3,7 +3,7 @@ package solutions.thex.smoothy.code.java.expression;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import solutions.thex.smoothy.code.Expression;
-import solutions.thex.smoothy.code.java.Operable;
+import solutions.thex.smoothy.code.java.expression.util.Operable;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

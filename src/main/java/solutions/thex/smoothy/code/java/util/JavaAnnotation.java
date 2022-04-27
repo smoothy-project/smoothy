@@ -1,12 +1,11 @@
-package solutions.thex.smoothy.code.java;
+package solutions.thex.smoothy.code.java.util;
 
 import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.Getter;
+import solutions.thex.smoothy.code.java.JavaSourceCodeWriter;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -57,10 +56,6 @@ public final class JavaAnnotation {
     private final List<Attribute> attributes = new LinkedList<>();
     private final String name;
 
-    public Set<String> imports() {
-        return null;
-    }
-
     public String render() {
         StringBuilder annotation = new StringBuilder();
         annotation.append("@").append(JavaSourceCodeWriter.getUnqualifiedName(this.name));
@@ -80,8 +75,23 @@ public final class JavaAnnotation {
             }
             annotation.append(")");
         }
-        annotation.append("\n");
+        annotation.append(System.lineSeparator());
         return annotation.toString();
+    }
+
+    public Set<String> imports() {
+        List<String> imports = new ArrayList<>();
+        if (JavaSourceCodeWriter.requiresImport(this.name)) imports.add(this.name);
+        this.attributes.forEach((attribute) -> {
+            if (attribute.getType() == Class.class) {
+                imports.addAll(attribute.getValues());
+            }
+            if (Enum.class.isAssignableFrom(attribute.getType())) {
+                imports.addAll(attribute.getValues().stream().map((value) -> value.substring(0, value.lastIndexOf(".")))
+                        .collect(Collectors.toList()));
+            }
+        });
+        return new LinkedHashSet<>(imports);
     }
 
 }

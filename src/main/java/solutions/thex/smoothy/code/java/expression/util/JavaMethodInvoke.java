@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.code.java;
+package solutions.thex.smoothy.code.java.expression.util;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -15,16 +15,14 @@ public final class JavaMethodInvoke {
 
     @Builder.Default
     private final List<Expression> arguments = new LinkedList<>();
-    @Builder.Default
-    private final boolean breakLine = false;
     private final String method;
 
     public String render() {
         return "." + getUnqualifiedName(method)//
                 + "("
                 + arguments.stream().map(Expression::render).collect(Collectors.joining(", "))//
-                + ")"//
-                + printTabIfBreakLine();
+                + ")";
+                //+ printTabIfBreakLine();
     }
 
     public Set<String> imports() {
@@ -38,8 +36,8 @@ public final class JavaMethodInvoke {
         return name.split("\\.")[name.split("\\.").length - 2] + "." + name.split("\\.")[name.split("\\.").length - 1];
     }
 
-    private String printTabIfBreakLine() {
-        return (breakLine) ? "//\n" + "    " + "    " : ""; //TODO: give indentation strategy
-    }
+//    private String printTabIfBreakLine() {
+//        return (breakLine) ? "//\n" + "    " + "    " : ""; //TODO: give indentation strategy
+//    }
 
 }

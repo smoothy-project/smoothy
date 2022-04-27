@@ -1,9 +1,11 @@
 package solutions.thex.smoothy.code;
 
-import solutions.thex.smoothy.code.formatting.IndentingWriter;
+import java.util.Set;
 
 public interface Declaration {
 
-    void render(IndentingWriter writer);
+    String render();
+
+    Set<String> imports();
 
 }

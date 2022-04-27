@@ -8,6 +8,8 @@ public interface SourceCode {
 
     List<CompilationUnit> getCompilationUnits();
 
+    List<CompilationUnit> getTestCompilationUnits();
+
     List<ISoyConfiguration> getStaticCompilationUnits();
 
 }

@@ -1,7 +1,8 @@
-package solutions.thex.smoothy.code.java;
+package solutions.thex.smoothy.code.java.expression.util;
 
 import lombok.Builder;
 import lombok.experimental.SuperBuilder;
+import solutions.thex.smoothy.code.java.util.JavaOperand;
 
 @SuperBuilder
 public class Operable {

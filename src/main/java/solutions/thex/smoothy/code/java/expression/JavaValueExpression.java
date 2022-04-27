@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import solutions.thex.smoothy.code.Expression;
 import solutions.thex.smoothy.code.java.JavaSourceCodeWriter;
-import solutions.thex.smoothy.code.java.Operable;
+import solutions.thex.smoothy.code.java.expression.util.Operable;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -29,6 +29,12 @@ public class JavaValueExpression extends Operable implements Expression {
             renderedValue = String.format("%s.%s", JavaSourceCodeWriter.getUnqualifiedName(enumClass), enumValue);
         } else if (this.type.equals(String.class)) {
             renderedValue = String.format("\"%s\"", this.value);
+        } else if (this.type.equals(Float.class)) {
+            renderedValue = String.format("%sF", this.value);
+        } else if (this.type.equals(Double.class)) {
+            renderedValue = String.format("%sD", this.value);
+        } else if (this.type.equals(Long.class)) {
+            renderedValue = String.format("%sL", this.value);
         } else {
             renderedValue = String.format("%s", this.value);
         }

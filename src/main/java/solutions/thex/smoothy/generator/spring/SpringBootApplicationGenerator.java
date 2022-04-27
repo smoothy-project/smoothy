@@ -5,13 +5,13 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import solutions.thex.smoothy.code.JavaCompilationUnit;
-import solutions.thex.smoothy.code.JavaSourceCode;
-import solutions.thex.smoothy.code.JavaSourceCodeWriter;
+import solutions.thex.smoothy.code.java.JavaSourceCodeWriter;
+import solutions.thex.smoothy.code.java.source.JavaCompilationUnit;
+import solutions.thex.smoothy.code.java.source.JavaSourceCode;
 import solutions.thex.smoothy.generator.ApplicationDescription;
 import solutions.thex.smoothy.generator.spring.conf.SmoothyDotConfFileGenerator;
 import solutions.thex.smoothy.generator.spring.main.src.java.MainClassGenerator;
-import solutions.thex.smoothy.generator.spring.main.src.java.security.jwt.JwtConfigsGenerators;
+import solutions.thex.smoothy.generator.spring.main.src.java.security.SecurityConfigGenerator;
 import solutions.thex.smoothy.generator.spring.main.src.resources.ApplicationPropertiesFileGenerator;
 import solutions.thex.smoothy.generator.spring.main.test.MainClassTestsGenerator;
 import solutions.thex.smoothy.generator.spring.pom.PomFileGenerator;
@@ -33,7 +33,7 @@ public class SpringBootApplicationGenerator {
     }
 
     public void generate(ApplicationDescription application, OutputStream out) throws IOException {
-        sourceWriter.writeTo(//
+        sourceWriter.writeSourceTo(//
                 JavaSourceCode.builder()//
                         .compilationUnits(generateCompilationUnits(application))//
                         .testCompilationUnits(generateTestCompilationUnits(application))//
@@ -44,8 +44,8 @@ public class SpringBootApplicationGenerator {
     private List<JavaCompilationUnit> generateCompilationUnits(ApplicationDescription application) {
         List<JavaCompilationUnit> compilationUnits = new ArrayList<>();
         compilationUnits.add(MainClassGenerator.generate(application.getName()));
-//        compilationUnits.addAll(SecurityConfigGenerator.generate(application.getName()));
-        compilationUnits.addAll(JwtConfigsGenerators.generate(application.getName()));
+        compilationUnits.addAll(SecurityConfigGenerator.generate(application.getName()));
+//        compilationUnits.addAll(JwtConfigsGenerators.generate(application.getName()));
         return compilationUnits;
     }
 

@@ -2,8 +2,8 @@ package solutions.thex.smoothy.code.java.expression;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import solutions.thex.smoothy.code.java.JavaMethodInvoke;
-import solutions.thex.smoothy.code.java.JavaOperand;
+import solutions.thex.smoothy.code.java.expression.util.JavaMethodInvoke;
+import solutions.thex.smoothy.code.java.util.JavaOperand;
 
 import java.util.Iterator;
 import java.util.List;

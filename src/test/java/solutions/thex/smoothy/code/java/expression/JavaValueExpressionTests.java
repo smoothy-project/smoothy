@@ -3,8 +3,8 @@ package solutions.thex.smoothy.code.java.expression;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.boot.test.context.SpringBootTest;
-import solutions.thex.smoothy.code.java.JavaOperand;
-import solutions.thex.smoothy.code.java.JavaType;
+import solutions.thex.smoothy.code.java.util.JavaOperand;
+import solutions.thex.smoothy.code.java.util.JavaType;
 
 import java.util.Set;
 
@@ -66,7 +66,7 @@ public class JavaValueExpressionTests {
     void javaValueExpression_with_type_enum_should_render_correct_expression() {
         // Given
         javaValueExpression = JavaValueExpression.builder()//
-                .value("solutions.thex.smoothy.code.java.JavaType.INTERFACE")//
+                .value("solutions.thex.smoothy.code.java.util.JavaType.INTERFACE")//
                 .type(JavaType.class)//
                 .build();
 
@@ -97,7 +97,7 @@ public class JavaValueExpressionTests {
     void javaValueExpression_with_type_enum_should_return_correct_imports() {
         // Given
         javaValueExpression = JavaValueExpression.builder()//
-                .value("solutions.thex.smoothy.code.java.JavaType.INTERFACE")//
+                .value("solutions.thex.smoothy.code.java.util.JavaType.INTERFACE")//
                 .type(JavaType.class)//
                 .build();
 
@@ -106,7 +106,7 @@ public class JavaValueExpressionTests {
 
         // Then
         assertEquals(1, imports.size());
-        assertEquals("solutions.thex.smoothy.code.java.JavaType", imports.iterator().next());
+        assertEquals("solutions.thex.smoothy.code.java.util.JavaType", imports.iterator().next());
     }
 
 }

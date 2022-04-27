@@ -1,4 +1,4 @@
-package solutions.thex.smoothy.code.java;
+package solutions.thex.smoothy.code.java.expression.util;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,19 +28,19 @@ public class JavaMethodInvokeTests {
         assertEquals(".method()", expression);
     }
 
-    @Test
-    void methodInvoke_with_breakLine_should_render_correct_expression() {
-        // Given
-        methodInvoke = JavaMethodInvoke.builder()//
-                .method("method")//
-                .breakLine(true)//
-                .build();
-        // When
-        String expression = methodInvoke.render();
-
-        // Then
-        assertEquals(".method()//\n        ", expression);//TODO: must read indent
-    }
+//    @Test
+//    void methodInvoke_with_breakLine_should_render_correct_expression() {
+//        // Given
+//        methodInvoke = JavaMethodInvoke.builder()//
+//                .method("method")//
+//                .breakLine(true)//
+//                .build();
+//        // When
+//        String expression = methodInvoke.render();
+//
+//        // Then
+//        assertEquals(".method()//\n        ", expression);//TODO: must read indent
+//    }
 
     @Test
     void methodInvoke_with_one_argument_should_render_correct_expression() {

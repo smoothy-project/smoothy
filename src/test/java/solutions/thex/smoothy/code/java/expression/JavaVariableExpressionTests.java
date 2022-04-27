@@ -2,7 +2,7 @@ package solutions.thex.smoothy.code.java.expression;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import solutions.thex.smoothy.code.java.JavaOperand;
+import solutions.thex.smoothy.code.java.util.JavaOperand;
 
 import java.util.Set;
 

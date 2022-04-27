@@ -4,9 +4,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import solutions.thex.smoothy.code.Expression;
-import solutions.thex.smoothy.code.java.JavaMethodInvoke;
 import solutions.thex.smoothy.code.java.JavaSourceCodeWriter;
-import solutions.thex.smoothy.code.java.Operable;
+import solutions.thex.smoothy.code.java.expression.util.JavaMethodInvoke;
+import solutions.thex.smoothy.code.java.expression.util.Operable;
 
 import java.util.*;
 import java.util.stream.Collectors;

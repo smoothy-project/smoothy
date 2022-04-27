@@ -1,12 +1,14 @@
 package solutions.thex.smoothy.generator.spring.main.test;
 
-import solutions.thex.smoothy.code.Annotation;
-import solutions.thex.smoothy.code.JavaCompilationUnit;
-import solutions.thex.smoothy.code.JavaType;
-import solutions.thex.smoothy.code.declaration.JavaMethodDeclaration;
-import solutions.thex.smoothy.code.declaration.JavaTypeDeclaration;
+import solutions.thex.smoothy.code.java.util.JavaAnnotation;
+import solutions.thex.smoothy.code.java.source.JavaCompilationUnit;
+import solutions.thex.smoothy.code.java.util.JavaModifier;
+import solutions.thex.smoothy.code.java.util.JavaType;
+import solutions.thex.smoothy.code.java.declaration.JavaMethodDeclaration;
+import solutions.thex.smoothy.code.java.source.JavaTypeDeclaration;
 import solutions.thex.smoothy.util.StringFormatter;
 
+import java.lang.reflect.Modifier;
 import java.util.List;
 
 public class MainClassTestsGenerator {
@@ -19,8 +21,12 @@ public class MainClassTestsGenerator {
                         JavaTypeDeclaration.builder()//
                                 .type(JavaType.CLASS)//
                                 .name(StringFormatter.toPascalCase(name.concat("ApplicationTests")))//
+                                .modifiers(JavaModifier.builder()
+                                        .type(JavaModifier.TYPE_MODIFIERS)
+                                        .modifiers(Modifier.PUBLIC)//
+                                        .build())
                                 .annotations(List.of(//
-                                        Annotation.builder()//
+                                        JavaAnnotation.builder()//
                                                 .name("org.springframework.boot.test.context.SpringBootTest")//
                                                 .build()))//
                                 .methodDeclarations(List.of(//
@@ -28,7 +34,7 @@ public class MainClassTestsGenerator {
                                                 .name("contextLoads")//
                                                 .returnType("void")//
                                                 .annotations(List.of(//
-                                                        Annotation.builder()//
+                                                        JavaAnnotation.builder()//
                                                                 .name("org.junit.jupiter.api.Test")//
                                                                 .build()))//
                                                 .build()))//
