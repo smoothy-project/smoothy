@@ -12,7 +12,10 @@ import solutions.thex.smoothy.generator.ApplicationDescription;
 import solutions.thex.smoothy.generator.spring.conf.SmoothyDotConfFileGenerator;
 import solutions.thex.smoothy.generator.spring.main.src.java.MainClassGenerator;
 import solutions.thex.smoothy.generator.spring.main.src.java.security.SecurityConfigGenerator;
-import solutions.thex.smoothy.generator.spring.main.src.java.security.jwt.JwtConfigsGenerators;
+import solutions.thex.smoothy.generator.spring.main.src.java.security.UnauthorizedEntryPointGenerator;
+import solutions.thex.smoothy.generator.spring.main.src.java.security.filter.ExceptionHandlerFilterGenerator;
+import solutions.thex.smoothy.generator.spring.main.src.java.security.filter.JwtAuthenticationFilterGenerator;
+import solutions.thex.smoothy.generator.spring.main.src.java.security.jwt.JwtGenerator;
 import solutions.thex.smoothy.generator.spring.main.src.resources.ApplicationPropertiesFileGenerator;
 import solutions.thex.smoothy.generator.spring.main.test.MainClassTestsGenerator;
 import solutions.thex.smoothy.generator.spring.pom.PomFileGenerator;
@@ -45,8 +48,11 @@ public class SpringBootApplicationGenerator {
     private List<JavaCompilationUnit> generateCompilationUnits(ApplicationDescription application) {
         List<JavaCompilationUnit> compilationUnits = new ArrayList<>();
         compilationUnits.add(MainClassGenerator.generate(application.getName()));
-        compilationUnits.addAll(SecurityConfigGenerator.generate(application.getName()));
-        compilationUnits.addAll(JwtConfigsGenerators.generate(application.getName()));
+        compilationUnits.add(SecurityConfigGenerator.generate(application.getName()));
+        compilationUnits.add(UnauthorizedEntryPointGenerator.generate(application.getName()));
+        compilationUnits.add(JwtGenerator.generate(application.getName()));
+        compilationUnits.add(JwtAuthenticationFilterGenerator.generate(application.getName()));
+        compilationUnits.add(ExceptionHandlerFilterGenerator.generate(application.getName()));
         return compilationUnits;
     }
 
