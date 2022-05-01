@@ -1,0 +1,19 @@
+{namespace website.smoothy.generator}
+{template dockerCompose kind="text"}
+
+{@param name: string}
+{@param port: string}
+
+{literal}version: '3.3'
+
+services:
+  badgify:
+    build:
+      context: .
+      args:
+        JAR_FILE: "./target/{/literal}{$name}{literal}-smoothy0.1.jar"
+    image: {/literal}{$name}{literal}-smoothy
+    container_name: {/literal}{$name}{literal}-smoothy
+    ports:
+      - "127.0.0.1:8080:{/literal}{$port}{literal}"{/literal}
+{/template}

@@ -10,6 +10,8 @@ import solutions.thex.smoothy.code.java.source.JavaCompilationUnit;
 import solutions.thex.smoothy.code.java.source.JavaSourceCode;
 import solutions.thex.smoothy.generator.ApplicationDescription;
 import solutions.thex.smoothy.generator.spring.conf.SmoothyDotConfFileGenerator;
+import solutions.thex.smoothy.generator.spring.docker.DockerComposeGenerator;
+import solutions.thex.smoothy.generator.spring.docker.DockerfileGenerator;
 import solutions.thex.smoothy.generator.spring.main.src.java.MainClassGenerator;
 import solutions.thex.smoothy.generator.spring.main.src.java.control.util.ApiErrorGenerator;
 import solutions.thex.smoothy.generator.spring.main.src.java.security.SecurityConfigGenerator;
@@ -30,6 +32,7 @@ import java.util.List;
 @Service
 public class SpringBootApplicationGenerator {
 
+    public final String PORT = "8080";
     private final JavaSourceCodeWriter sourceWriter;
 
     @Autowired
@@ -67,17 +70,20 @@ public class SpringBootApplicationGenerator {
         return List.of(//
                 generateApplicationPropertiesFile(application),//
                 generatePomFile(application),//
-                generateSmoothyDotConf(application));
+                generateSmoothyDotConf(application),//
+                generateDockerfile(application),//
+                generateDockerCompose(application));
     }
 
-    private ISoyConfiguration generateApplicationPropertiesFile(ApplicationDescription application) throws IOException {
+    private ISoyConfiguration generateApplicationPropertiesFile(ApplicationDescription application) {
         return ApplicationPropertiesFileGenerator.builder()//
                 .name(application.getName())//
-                .port(((SpringBootApplication) application.getApplication()).getPort())//
+//                .port(((SpringBootApplication) application.getApplication()).getPort())//
+                .port(PORT)//
                 .build();
     }
 
-    private ISoyConfiguration generatePomFile(ApplicationDescription application) throws IOException {
+    private ISoyConfiguration generatePomFile(ApplicationDescription application) {
         return PomFileGenerator.builder()//
                 .javaVersion(((SpringBootApplication) application.getApplication()).getJavaVersion())//
                 .springVersion(((SpringBootApplication) application.getApplication()).getSpringVersion())//
@@ -89,6 +95,19 @@ public class SpringBootApplicationGenerator {
     private ISoyConfiguration generateSmoothyDotConf(ApplicationDescription application) throws IOException {
         return SmoothyDotConfFileGenerator.builder()//
                 .yml(new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER)).writeValueAsString(application))//
+                .build();
+    }
+
+    private ISoyConfiguration generateDockerfile(ApplicationDescription application) {
+        return DockerfileGenerator.builder()//
+                .javaVersion(((SpringBootApplication) application.getApplication()).getJavaVersion())//
+                .build();
+    }
+
+    private ISoyConfiguration generateDockerCompose(ApplicationDescription application) {
+        return DockerComposeGenerator.builder()//
+                .name(application.getName())//
+                .port(((SpringBootApplication) application.getApplication()).getPort())//
                 .build();
     }
 
