@@ -256,30 +256,6 @@ public class ApiErrorGenerator {
                                                 .isThrows(true)//
                                                 .exceptions(List.of("com.fasterxml.jackson.core.JsonProcessingException"))//
                                                 .statements(List.of(//
-                                                        JavaControlStatement.builder()//
-                                                                .ifs(List.of(//
-                                                                        JavaControlStatement.If.builder()//
-                                                                                .condition(JavaBraceletExpression.builder()//
-                                                                                        .bracelet(false)//
-                                                                                        .expressions(List.of(//
-                                                                                                JavaVariableExpression.builder()//
-                                                                                                        .variable("this")
-                                                                                                        .operand(JavaOperand.EQUAL)//
-                                                                                                        .build(),//
-                                                                                                JavaValueExpression.builder()//
-                                                                                                        .type(null)//
-                                                                                                        .value("null")//
-                                                                                                        .build()))//
-                                                                                        .build())//
-                                                                                .statements(List.of(//
-                                                                                        JavaReturnStatement.builder()//
-                                                                                                .expression(JavaValueExpression.builder()//
-                                                                                                        .type(null)//
-                                                                                                        .value("null")//
-                                                                                                        .build())//
-                                                                                                .build()))//
-                                                                                .build()))//
-                                                                .build(),//
                                                         JavaDeclarationStatement.builder()//
                                                                 .type("com.fasterxml.jackson.databind.ObjectMapper")//
                                                                 .name("mapper")//
