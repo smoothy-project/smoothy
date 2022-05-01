@@ -23,6 +23,13 @@ public class JavaNewInstanceExpression extends Operable implements Expression {
 
     @Override
     public String render() {
+        if ("!".equals(super.render()))
+            return super.render() + "new " + JavaSourceCodeWriter.getUnqualifiedName(this.name)//
+                    + "("//
+                    + this.arguments.stream().map(Expression::render).collect(Collectors.joining(", "))//
+                    + ")"//
+                    + this.invokes.stream().map(JavaMethodInvoke::render).collect(Collectors.joining())//
+                    + super.render();
         return "new " + JavaSourceCodeWriter.getUnqualifiedName(this.name)//
                 + "("//
                 + this.arguments.stream().map(Expression::render).collect(Collectors.joining(", "))//

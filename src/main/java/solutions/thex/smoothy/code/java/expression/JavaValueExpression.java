@@ -21,23 +21,27 @@ public class JavaValueExpression extends Operable implements Expression {
     @Override
     public String render() {
         String renderedValue;
-        if (this.type.equals(Class.class)) {
+        if (this.type == null && this.value.equals("null")) {
+            renderedValue = "null";
+        } else if (this.type != null && this.type.equals(Class.class)) {
             renderedValue = String.format("%s.class", JavaSourceCodeWriter.getUnqualifiedName(this.value));
-        } else if (Enum.class.isAssignableFrom(this.type)) {
+        } else if (this.type != null && Enum.class.isAssignableFrom(this.type)) {
             String enumValue = this.value.substring(this.value.lastIndexOf(".") + 1);
             String enumClass = this.value.substring(0, this.value.lastIndexOf("."));
             renderedValue = String.format("%s.%s", JavaSourceCodeWriter.getUnqualifiedName(enumClass), enumValue);
-        } else if (this.type.equals(String.class)) {
+        } else if (this.type != null && this.type.equals(String.class)) {
             renderedValue = String.format("\"%s\"", this.value);
-        } else if (this.type.equals(Float.class)) {
+        } else if (this.type != null && this.type.equals(Float.class)) {
             renderedValue = String.format("%sF", this.value);
-        } else if (this.type.equals(Double.class)) {
+        } else if (this.type != null && this.type.equals(Double.class)) {
             renderedValue = String.format("%sD", this.value);
-        } else if (this.type.equals(Long.class)) {
+        } else if (this.type != null && this.type.equals(Long.class)) {
             renderedValue = String.format("%sL", this.value);
         } else {
             renderedValue = String.format("%s", this.value);
         }
+        if ("!".equals(super.render()))
+            return super.render() + renderedValue;
         return renderedValue + super.render();
     }
 

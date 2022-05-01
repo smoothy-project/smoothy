@@ -16,6 +16,8 @@ public class JavaVariableExpression extends Operable implements Expression {
 
     @Override
     public String render() {
+        if ("!".equals(super.render()))
+            return super.render() + variable;
         return variable + super.render();
     }
 

@@ -44,6 +44,7 @@ public final class JavaMethodDeclaration implements Declaration {
         private final List<String> genericTypes = new LinkedList<>();
         private final String type;
         private final String name;
+        private final JavaModifier modifiers;
 
     }
 
@@ -56,9 +57,9 @@ public final class JavaMethodDeclaration implements Declaration {
         writer.print(this.parameters.stream()
                 .map((parameter) -> {
                     if (parameter.getGenericTypes().isEmpty())
-                        return renderSimpleParameter(parameter);
+                        return ((parameter.modifiers != null) ? parameter.modifiers.render() + " " : "") + renderSimpleParameter(parameter);
                     else
-                        return renderGenericParameter(parameter);
+                        return ((parameter.modifiers != null) ? parameter.modifiers.render() + " "  : "") + renderGenericParameter(parameter);
                 })
                 .collect(Collectors.joining(", ")));
         if (isThrows()) {
