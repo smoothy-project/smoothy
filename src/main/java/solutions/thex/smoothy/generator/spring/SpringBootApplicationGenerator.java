@@ -11,6 +11,7 @@ import solutions.thex.smoothy.code.java.source.JavaSourceCode;
 import solutions.thex.smoothy.generator.ApplicationDescription;
 import solutions.thex.smoothy.generator.spring.conf.SmoothyDotConfFileGenerator;
 import solutions.thex.smoothy.generator.spring.main.src.java.MainClassGenerator;
+import solutions.thex.smoothy.generator.spring.main.src.java.control.util.ApiErrorGenerator;
 import solutions.thex.smoothy.generator.spring.main.src.java.security.SecurityConfigGenerator;
 import solutions.thex.smoothy.generator.spring.main.src.java.security.UnauthorizedEntryPointGenerator;
 import solutions.thex.smoothy.generator.spring.main.src.java.security.filter.ExceptionHandlerFilterGenerator;
@@ -53,6 +54,7 @@ public class SpringBootApplicationGenerator {
         compilationUnits.add(JwtGenerator.generate(application.getName()));
         compilationUnits.add(JwtAuthenticationFilterGenerator.generate(application.getName()));
         compilationUnits.add(ExceptionHandlerFilterGenerator.generate(application.getName()));
+        compilationUnits.add(ApiErrorGenerator.generate(application.getName()));
         return compilationUnits;
     }
 
