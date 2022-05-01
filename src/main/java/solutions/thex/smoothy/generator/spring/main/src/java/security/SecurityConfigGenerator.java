@@ -83,13 +83,22 @@ public class SecurityConfigGenerator {
                                                         .build(),//
                                                 JavaFieldDeclaration.builder()//
                                                         .name("jwtAuthenticationFilter")//
-                                                        .type("website.smoothy.".concat(name.toLowerCase()).concat(".security.jwt.JwtAuthenticationFilter"))//
+                                                        .type("website.smoothy.".concat(name.toLowerCase()).concat(".security.filter.JwtAuthenticationFilter"))//
                                                         .modifiers(JavaModifier.builder()//
                                                                 .type(JavaModifier.FIELD_MODIFIERS)//
                                                                 .modifiers(Modifier.PRIVATE | Modifier.FINAL)//
                                                                 .build())//
                                                         .initialized(false)//
-                                                        .build()))//
+                                                        .build(),//
+                                                JavaFieldDeclaration.builder()//
+                                                        .name("exceptionHandlerFilter")//
+                                                        .type("website.smoothy.".concat(name.toLowerCase()).concat(".security.filter.ExceptionHandlerFilter"))//
+                                                        .modifiers(JavaModifier.builder()//
+                                                                .type(JavaModifier.FIELD_MODIFIERS)//
+                                                                .modifiers(Modifier.PRIVATE | Modifier.FINAL)//
+                                                                .build())//
+                                                        .initialized(false)//
+                                                        .build() ))//
                                         .methodDeclarations(List.of(//
                                                 JavaMethodDeclaration.builder()//
                                                         .name("SecurityConfig")//
@@ -110,7 +119,11 @@ public class SecurityConfigGenerator {
                                                                 JavaMethodDeclaration.Parameter.builder()//
                                                                         .name("jwtAuthenticationFilter")//
                                                                         .type("website.smoothy.".concat(name.toLowerCase()).concat(".security.filter.JwtAuthenticationFilter"))//
-                                                                        .build()))//
+                                                                        .build(),//
+                                                                JavaMethodDeclaration.Parameter.builder()//
+                                                                        .name("exceptionHandlerFilter")//
+                                                                        .type("website.smoothy.".concat(name.toLowerCase()).concat(".security.filter.ExceptionHandlerFilter"))//
+                                                                        .build() ))//
                                                         .statements(List.of(//
                                                                 JavaAssignStatement.builder()//
                                                                         .variable("this.unauthorizedEntryPoint")//
@@ -123,7 +136,13 @@ public class SecurityConfigGenerator {
                                                                         .expression(JavaVariableExpression.builder()//
                                                                                 .variable("jwtAuthenticationFilter")//
                                                                                 .build())//
-                                                                        .build()))//
+                                                                        .build(),//
+                                                                JavaAssignStatement.builder()//
+                                                                        .variable("this.exceptionHandlerFilter")//
+                                                                        .expression(JavaVariableExpression.builder()//
+                                                                                .variable("exceptionHandlerFilter")//
+                                                                                .build())//
+                                                                        .build() ))//
                                                         .build(),//
                                                 JavaMethodDeclaration.builder()//
                                                         .name("configure")//
@@ -313,6 +332,23 @@ public class SecurityConfigGenerator {
                                                                                                                 .build(),//
                                                                                                         JavaValueExpression.builder()//
                                                                                                                 .value("org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter")//
+                                                                                                                .type(Class.class)//
+                                                                                                                .build()))//
+                                                                                                .build()))//
+                                                                                .build())//
+                                                                        .build(),//
+                                                                JavaExpressionStatement.builder()//
+                                                                        .expression(JavaMethodInvocationExpression.builder()//
+                                                                                .target("http")//
+                                                                                .invokes(List.of(//
+                                                                                        JavaMethodInvoke.builder()//
+                                                                                                .method("addFilterBefore")//
+                                                                                                .arguments(List.of(//
+                                                                                                        JavaVariableExpression.builder()//
+                                                                                                                .variable("exceptionHandlerFilter")//
+                                                                                                                .build(),//
+                                                                                                        JavaValueExpression.builder()//
+                                                                                                                .value("website.smoothy.".concat(name.toLowerCase()).concat(".security.filter.JwtAuthenticationFilter"))//
                                                                                                                 .type(Class.class)//
                                                                                                                 .build()))//
                                                                                                 .build()))//
