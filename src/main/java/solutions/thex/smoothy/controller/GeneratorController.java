@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/generate")
+@RequestMapping("/generate")
 public class GeneratorController {
 
     private final ApplicationGenerator generator;
