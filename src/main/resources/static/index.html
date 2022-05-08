@@ -13,7 +13,7 @@
       margin: 0;
       font-family: Roboto, Arial, sans-serif;
       font-size: 14px; 
-      color: #ffce9e;
+      color: #666;
       }
       input, textarea { 
       outline: none;
@@ -23,7 +23,7 @@
       justify-content: center;
       align-items: center;
       padding: 20px;
-      background: #e9b111;
+      background: #5a7233;
       }
       h1 {
       margin-top: 0;
@@ -33,7 +33,7 @@
       position: relative;
       width: 80%;
       border-radius: 30px;
-      background: #292119;
+      background: #fff;
       }
       .form-left-decoration,
       .form-right-decoration {
@@ -42,7 +42,7 @@
       width: 50px;
       height: 20px;
       border-radius: 20px;
-      background: #e9b111;
+      background: #5a7233;
       }
       .form-left-decoration {
       bottom: 60px;
@@ -61,7 +61,7 @@
       width: 50px;
       height: 20px;
       border-radius: 30px;
-      background: #292119;
+      background: #fff;
       }
       .form-left-decoration:before {
       top: -20px;
@@ -85,7 +85,7 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: #292119;
+      background: #fff;
       }
       .form-inner {
       padding: 40px;
@@ -99,12 +99,10 @@
       border: none;
       border-radius: 20px;
       background: #d0dfe8;
+      font-size: 15px;
       }
       .form-inner textarea {
       resize: none;
-      background: #584736;
-      color: #ffce9e;
-      font-size: 15px;
       }
       button {
       width: 100%;
@@ -112,14 +110,14 @@
       margin-top: 20px;
       border-radius: 20px;
       border: none;
-      border-bottom: 4px solid #e9a007;
-      background: #e9b111; 
+      border-bottom: 4px solid #3e4f24;
+      background: #5a7233; 
       font-size: 16px;
       font-weight: 400;
-      color: #292119;
+      color: #fff;
       }
       button:hover {
-      background: #e9a007;
+      background: #3e4f24;
       } 
       @media (min-width: 568px) {
       form {
@@ -139,7 +137,7 @@
       <div class="form-right-decoration"></div>
       <div class="circle"></div>
       <div class="form-inner">
-        <h1>Generate a Smoothy...</h1>
+        <h1>Generate an Smoothy...</h1>
         <textarea id="config" placeholder="Your smoothy application configuration..." rows="15"></textarea>
         <button type="button" onclick="generate()">Generate</button>
       </div>
