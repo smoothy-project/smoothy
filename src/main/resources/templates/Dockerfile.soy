@@ -1,0 +1,11 @@
+{namespace website.smoothy.generator}
+{template dockerfile kind="text"}
+
+{@param java: string}
+
+{literal}FROM openjdk:{/literal}{$java}{literal}-oracle
+ARG JAR_FILE
+
+ADD ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]{/literal}
+{/template}

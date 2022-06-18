@@ -23,3 +23,48 @@
         <img src="https://badgify.thex.solutions/api/badge/link?title=Buy%20me%20a%20%20cup%20of%20coffee%20:D&icon=hand-holding-dollar&size=s&bg=green" />
     </a>
 </p>
+
+## You want to test?
+
+- Clone the Smoothy's repository
+- Switch to the latest feature branch
+- Run the following commands:
+
+```bash
+~$ mvn clean install -DskipTests -Dcheckstyle.skip
+~$ mvn spring-boot:run
+```
+
+- Open your browser and go to `http://localhost:7777/`
+- Generate a new website with the following yaml or json file:
+```yaml
+name: MyWebsite
+description: A wonderful application!
+applicationType: spring-boot
+application:
+  javaVersion: 18
+  springVersion: 2.6.6
+  port: 7070          
+```
+
+Or
+
+```json
+{
+    "name": "MyWebsite",
+    "description": "A wonderful application!",
+    "applicationType": "spring-boot",
+    "application": {
+        "javaVersion": "18",
+        "springVersion": "2.6.6",
+        "port": "7070"
+    }
+}
+```
+
+- Or you can POST your json or yaml file to `http://localhost:7777/generate`
+- Finally, download your generated website as a zip file.
+
+**Right now the Smoothy is under construction! There is no guarantee that your generated website work properly!**
+
+If you have any ideas or suggestions, or you want to contribute to this project, please contact me =))<3
