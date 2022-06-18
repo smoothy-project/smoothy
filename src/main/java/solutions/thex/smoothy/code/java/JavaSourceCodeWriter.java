@@ -26,7 +26,7 @@ public final class JavaSourceCodeWriter implements SourceCodeWriter {
     }
 
     @Override
-    public void writeSourceTo(SourceCode sourceCode, OutputStream outPut) throws IOException {
+    public void writeSourceTo(SourceCode sourceCode, OutputStream outPut) {
         try (ZipOutputStream zipOutput = new ZipOutputStream(outPut)) {
             sourceCode.getCompilationUnits().stream().map(unit -> (JavaCompilationUnit) unit).forEach(unit -> {
                 try {
@@ -55,6 +55,8 @@ public final class JavaSourceCodeWriter implements SourceCodeWriter {
                     e.printStackTrace();
                 }
             });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
