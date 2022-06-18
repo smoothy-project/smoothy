@@ -77,7 +77,7 @@ public class BeforeGenerateAspects {
     }
 
     private void checkRequires(ApplicationDescription applicationDescription) throws JsonProcessingException {
-        if (applicationDescription.getName() == null || applicationDescription.getName().isEmpty())
+        if (applicationDescription.getApplication().getName() == null || applicationDescription.getApplication().getName().isEmpty())
             throw new PayloadIsNotSatisfactoryException("Application name is required!");
     }
 
