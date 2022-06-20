@@ -42,7 +42,6 @@ public class JavaFieldDeclarationTests {
                         .type(JavaModifier.FIELD_MODIFIERS)//
                         .modifiers(Modifier.PRIVATE)//
                         .build())//
-                .initialized(true)//
                 .value("otherUserDetailsService")//
                 .build();
 
@@ -63,7 +62,6 @@ public class JavaFieldDeclarationTests {
                         .type(JavaModifier.FIELD_MODIFIERS)//
                         .modifiers(Modifier.PRIVATE)//
                         .build())//
-                .initialized(true)//
                 .value(12345678901L)//
                 .build();
 
@@ -84,7 +82,6 @@ public class JavaFieldDeclarationTests {
                         .type(JavaModifier.FIELD_MODIFIERS)//
                         .modifiers(Modifier.PRIVATE)//
                         .build())//
-                .initialized(true)//
                 .value(1278901.1F)//
                 .build();
 
@@ -105,7 +102,6 @@ public class JavaFieldDeclarationTests {
                         .type(JavaModifier.FIELD_MODIFIERS)//
                         .modifiers(Modifier.PRIVATE)//
                         .build())//
-                .initialized(true)//
                 .value(12345678901.1D)//
                 .build();
 
