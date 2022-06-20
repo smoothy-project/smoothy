@@ -1,10 +1,13 @@
 package solutions.thex.smoothy.description.java;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import solutions.thex.smoothy.description.ObjectType;
+import solutions.thex.smoothy.description.java.field.JavaDAOFieldDescription;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -21,11 +24,12 @@ public class JavaTypeDescription {
     private String implementedClassName;
     @Builder.Default
     private List<String> modifiers = new LinkedList<>();
-    @Builder.Default
-    private List<AnnotationDescription> annotations = new LinkedList<>();
-    @Builder.Default
+    private List<JavaAnnotationDescription> annotations = new LinkedList<>();
+    @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
+    @JsonSubTypes({
+            @JsonSubTypes.Type(value = JavaDAOFieldDescription.class, name = "DAO")}
+    )
     private List<JavaFieldDescription> fields = new LinkedList<>();
-    @Builder.Default
-    private List<MethodDescription> methods = new LinkedList<>();
+    private List<JavaMethodDescription> methods = new LinkedList<>();
 
 }
