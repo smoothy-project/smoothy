@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import solutions.thex.smoothy.generator.spring.SpringBootApplication;
+import solutions.thex.smoothy.generator.spring.SpringBootApplicationDescription;
 
 @Builder
 @Data
@@ -18,7 +18,7 @@ public class ApplicationDescription {
             include = JsonTypeInfo.As.EXTERNAL_PROPERTY,//
             property = "applicationType")
     @JsonSubTypes({
-            @JsonSubTypes.Type(value = SpringBootApplication.class, name = "spring-boot")
+            @JsonSubTypes.Type(value = SpringBootApplicationDescription.class, name = "spring-boot")
     })
     private Application application;
 

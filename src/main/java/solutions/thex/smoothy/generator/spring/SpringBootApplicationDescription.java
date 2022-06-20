@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import solutions.thex.smoothy.generator.Application;
-import solutions.thex.smoothy.generator.descrition.ObjectClassDescription;
+import solutions.thex.smoothy.description.java.JavaTypeDescription;
 
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SpringBootApplication implements Application {
+public class SpringBootApplicationDescription implements Application {
 
     private String name;
     @Builder.Default
@@ -27,7 +27,7 @@ public class SpringBootApplication implements Application {
     @Builder.Default
     private String port = "8080";
     @Builder.Default
-    private List<ObjectClassDescription> objects = new ArrayList<>();
+    private List<JavaTypeDescription> types = new ArrayList<>();
 
     @Override
     public void generate(OutputStream out) {

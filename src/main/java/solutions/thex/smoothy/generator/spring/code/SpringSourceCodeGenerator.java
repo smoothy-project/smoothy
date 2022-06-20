@@ -3,7 +3,7 @@ package solutions.thex.smoothy.generator.spring.code;
 import lombok.Builder;
 import solutions.thex.smoothy.code.java.source.JavaCompilationUnit;
 import solutions.thex.smoothy.description.java.JavaTypeDescription;
-import solutions.thex.smoothy.generator.spring.SpringBootApplication;
+import solutions.thex.smoothy.generator.spring.SpringBootApplicationDescription;
 import solutions.thex.smoothy.generator.spring.code.type.SpringDAOGenerator;
 import solutions.thex.smoothy.generator.spring.code.type.SpringTypeGenerator;
 import solutions.thex.smoothy.util.StringFormatter;
@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 public class SpringSourceCodeGenerator {
 
-    private SpringBootApplication springBootApplication;
+    private SpringBootApplicationDescription springBootApplication;
 
     public List<JavaCompilationUnit> generate() {
         List<JavaCompilationUnit> compilationUnits = new ArrayList<>();
