@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 public record JavaDeclarationStatement(JavaModifier modifiers, String name, String type,//
                                        boolean initialized,
-                                       Expression expression, List<String> genericType) implements Statement {
+                                       Expression expression, List<String> genericTypes) implements Statement {
 
     @Builder
     public JavaDeclarationStatement {
@@ -26,8 +26,8 @@ public record JavaDeclarationStatement(JavaModifier modifiers, String name, Stri
         StringBuilder str = new StringBuilder();
         if (modifiers != null) str.append(this.modifiers.render());
         str.append(JavaSourceCodeWriter.getUnqualifiedName(this.type));
-        if (this.genericType != null) {
-            str.append("<").append(this.genericType.stream()//
+        if (this.genericTypes != null) {
+            str.append("<").append(this.genericTypes.stream()//
                             .map(JavaSourceCodeWriter::getUnqualifiedName)//
                             .collect(Collectors.joining(", ")))//
                     .append("> ");
