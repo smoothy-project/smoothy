@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Builder
-public class SpringSourceCodeGenerator {
+public class SpringBootSourceCodeGenerator {
 
     private SpringBootApplicationDescription springBootApplication;
 
