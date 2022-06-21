@@ -14,7 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import solutions.thex.smoothy.exception.PayloadIsNotSatisfactoryException;
-import solutions.thex.smoothy.generator.ApplicationDescription;
+import solutions.thex.smoothy.generate.ApplicationDescription;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class BeforeGenerateAspects {
 
-    @Before(value = "execution(* solutions.thex.smoothy.controller.GeneratorController.generate(..)) && args(request, payload)",//
+    @Before(value = "execution(* solutions.thex.smoothy.control.GeneratorController.generate(..)) && args(request, payload)",//
             argNames = "joinPoint,request,payload")
     public void beforeGenerate(JoinPoint joinPoint, HttpServletRequest request, String payload) {
         logRequest(joinPoint, request, payload);

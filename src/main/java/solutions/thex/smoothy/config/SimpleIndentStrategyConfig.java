@@ -2,7 +2,7 @@ package solutions.thex.smoothy.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import solutions.thex.smoothy.code.formatting.SimpleIndentStrategy;
+import solutions.thex.smoothy.core.declaration.formatting.SimpleIndentStrategy;
 
 @Configuration
 public class SimpleIndentStrategyConfig {
