@@ -5,6 +5,7 @@ import solutions.thex.smoothy.core.declaration.java.source.JavaCompilationUnit;
 import solutions.thex.smoothy.core.description.java.JavaTypeDescription;
 import solutions.thex.smoothy.generate.spring.SpringBootApplicationDescription;
 import solutions.thex.smoothy.generate.spring.code.type.SpringDAOGenerator;
+import solutions.thex.smoothy.generate.spring.code.type.SpringRepositoryGenerator;
 import solutions.thex.smoothy.generate.spring.code.type.SpringTypeGenerator;
 import solutions.thex.smoothy.util.StringFormatter;
 
@@ -31,7 +32,7 @@ public class SpringBootSourceCodeGenerator {
             compilationUnits.add(//
                     JavaCompilationUnit.builder()
                             .packageName(generatePackageName(type))//
-                            .name(StringFormatter.toPascalCase(type.getName()))//
+                            .name(StringFormatter.toPascalCase(type.getName(), type.getType().toString()))//
                             .typeDeclarations(List.of(generator.generateTypeDeclaration()))//
                             .build());
         });
@@ -39,21 +40,22 @@ public class SpringBootSourceCodeGenerator {
     }
 
     private SpringTypeGenerator createGenerator(JavaTypeDescription type) {
-        switch (type.getType()) {
-            case DAO:
-                return SpringDAOGenerator.builder()//
-                        .projectName(springBootApplication.getName())//
-                        .type(type).build();
-            default:
-                return null;
-        }
+        return switch (type.getType()) {
+            case DAO -> SpringDAOGenerator.builder()//
+                    .projectName(springBootApplication.getName())//
+                    .type(type).build();
+            case REPOSITORY -> SpringRepositoryGenerator.builder()//
+                    .projectName(springBootApplication.getName())//
+                    .type(type).build();
+            default -> null;
+        };
     }
 
     private String generatePackageName(JavaTypeDescription type) {
         return "website.smoothy."//
                 .concat(springBootApplication.getName().toLowerCase())//
                 .concat(".")//
-                .concat(type.getType().toString().toLowerCase());
+                .concat(type.getType().getPackageName());
     }
 
 }
