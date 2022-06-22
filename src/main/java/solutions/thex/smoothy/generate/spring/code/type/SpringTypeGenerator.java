@@ -1,18 +1,22 @@
 package solutions.thex.smoothy.generate.spring.code.type;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import solutions.thex.smoothy.core.declaration.java.declaration.JavaFieldDeclaration;
 import solutions.thex.smoothy.core.declaration.java.declaration.JavaMethodDeclaration;
 import solutions.thex.smoothy.core.declaration.java.source.JavaTypeDeclaration;
 import solutions.thex.smoothy.core.declaration.java.util.JavaAnnotation;
 import solutions.thex.smoothy.core.declaration.java.util.JavaModifier;
-import solutions.thex.smoothy.core.declaration.java.util.JavaType;
 import solutions.thex.smoothy.core.description.java.JavaTypeDescription;
-import solutions.thex.smoothy.util.StringFormatter;
 
 import java.util.List;
 
+@Data
 @SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 public abstract class SpringTypeGenerator {
 
     protected JavaTypeDescription type;
@@ -23,18 +27,7 @@ public abstract class SpringTypeGenerator {
 
     abstract public List<JavaMethodDeclaration> generateMethods();
 
-    public JavaTypeDeclaration generateTypeDeclaration() {
-        return JavaTypeDeclaration.builder()//
-                .type(JavaType.CLASS)//
-                .name(StringFormatter.toPascalCase(type.getName()))//
-                .extendedClassName(type.getExtendedClassName())//
-                .implementedClassName(type.getImplementedClassName())//
-                .modifiers(generateModifiers(type.getModifiers()))//
-                .annotations(generateAnnotations())//
-                .fieldDeclarations(generateFields())//
-                .methodDeclarations(generateMethods())//
-                .build();
-    }
+    abstract public JavaTypeDeclaration generateTypeDeclaration();
 
     protected JavaModifier generateModifiers(List<String> modifiers) {
         return JavaModifier.builder()//
