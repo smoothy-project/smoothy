@@ -1,6 +1,6 @@
-package solutions.thex.smoothy.core.description;
+package solutions.thex.smoothy.core.description.java;
 
-public enum ObjectType {
+public enum JavaObjectType {
 
     DAO("dao"),//
     REPOSITORY("dao.repository"),//
@@ -9,7 +9,7 @@ public enum ObjectType {
 
     private final String packageName;
 
-    ObjectType(String packageName) {
+    JavaObjectType(String packageName) {
         this.packageName = packageName;
     }
 
