@@ -34,6 +34,8 @@ public final class JavaTypeDeclaration implements TypeDeclaration {
     private final String name;
     private String extendedClassName;
     private String implementedClassName;
+    @Default
+    private List<String> tailGenericTypes = new ArrayList<>();
 
     @Override
     public String render() {
@@ -60,6 +62,7 @@ public final class JavaTypeDeclaration implements TypeDeclaration {
         imports.addAll(this.annotations.stream().map(JavaAnnotation::imports).flatMap(Collection::stream).collect(Collectors.toList()));
         imports.addAll(this.fieldDeclarations.stream().map(JavaFieldDeclaration::imports).flatMap(Collection::stream).collect(Collectors.toList()));
         imports.addAll(this.methodDeclarations.stream().map(JavaMethodDeclaration::imports).flatMap(Collection::stream).collect(Collectors.toList()));
+        imports.addAll(tailGenericTypes);
         if (this.extendedClassName != null) imports.add(this.extendedClassName);
         if (this.implementedClassName != null) imports.add(this.implementedClassName);
         return new LinkedHashSet<>(imports);
@@ -71,7 +74,19 @@ public final class JavaTypeDeclaration implements TypeDeclaration {
             className += " extends " + JavaSourceCodeWriter.getUnqualifiedName(this.extendedClassName);
         else if (getImplementedClassName() != null)
             className += " implements " + JavaSourceCodeWriter.getUnqualifiedName(this.implementedClassName);
+        if (!this.tailGenericTypes.isEmpty()) {
+            className += renderGenericType();
+        }
         return className;
+    }
+
+    private String renderGenericType() {
+        StringBuilder str = new StringBuilder();
+        str.append("<").append(this.tailGenericTypes.stream()//
+                        .map(JavaSourceCodeWriter::getUnqualifiedName)//
+                        .collect(Collectors.joining(", ")))//
+                .append(">");
+        return str.toString();
     }
 
     private String renderAnnotations() {
