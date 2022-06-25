@@ -12,6 +12,7 @@ import solutions.thex.smoothy.core.declaration.java.util.JavaAnnotation;
 import solutions.thex.smoothy.core.declaration.java.util.JavaModifier;
 import solutions.thex.smoothy.core.declaration.java.util.JavaType;
 import solutions.thex.smoothy.core.description.java.field.JavaDAOFieldDescription;
+import solutions.thex.smoothy.core.description.java.type.JavaDAOTypeDescription;
 import solutions.thex.smoothy.util.StringFormatter;
 
 import java.lang.reflect.Modifier;
@@ -44,7 +45,28 @@ public final class SpringDAOGenerator extends SpringTypeGenerator {
 
     @Override
     public List<JavaAnnotation> generateAnnotations() {
-        return List.of(//
+        List<JavaAnnotation> annotations = new ArrayList<>();
+        if (((JavaDAOTypeDescription) type).isStoreCreatedDate()//
+                || ((JavaDAOTypeDescription) type).isStoreUpdatedDate()) {
+            List<String> prop = new ArrayList<>();
+            if (((JavaDAOTypeDescription) type).isStoreCreatedDate()) prop.add("createdAt");
+            if (((JavaDAOTypeDescription) type).isStoreUpdatedDate()) prop.add("updatedAt");
+            annotations.add(JavaAnnotation.builder()//
+                    .name("com.fasterxml.jackson.annotation.JsonIgnoreProperties")//
+                    .attributes(List.of(//
+                            JavaAnnotation.Attribute.builder()//
+                                    .name("value")//
+                                    .type(String.class)//
+                                    .values(prop)//
+                                    .build(),//
+                            JavaAnnotation.Attribute.builder()//
+                                    .name("allowGetters")//
+                                    .type(Boolean.class)//
+                                    .values(List.of("true"))//
+                                    .build()))//
+                    .build());
+        }
+        annotations.addAll(List.of(//
                 JavaAnnotation.builder()//
                         .name("javax.persistence.Entity")//
                         .build(),//
@@ -71,20 +93,6 @@ public final class SpringDAOGenerator extends SpringTypeGenerator {
                                         .build()))//
                         .build(),//
                 JavaAnnotation.builder()//
-                        .name("com.fasterxml.jackson.annotation.JsonIgnoreProperties")//
-                        .attributes(List.of(//
-                                JavaAnnotation.Attribute.builder()//
-                                        .name("value")//
-                                        .type(String.class)//
-                                        .values(List.of("createdAt", "updatedAt"))//
-                                        .build(),//
-                                JavaAnnotation.Attribute.builder()//
-                                        .name("allowGetters")//
-                                        .type(Boolean.class)//
-                                        .values(List.of("true"))//
-                                        .build()))//
-                        .build(),//
-                JavaAnnotation.builder()//
                         .name("lombok.Builder")//
                         .build(),//
                 JavaAnnotation.builder()//
@@ -101,15 +109,16 @@ public final class SpringDAOGenerator extends SpringTypeGenerator {
                         .build(),//
                 JavaAnnotation.builder()//
                         .name("lombok.Setter")//
-                        .build());
+                        .build()));
+        return annotations;
     }
 
     @Override
     public List<JavaFieldDeclaration> generateFields() {
         List<JavaFieldDeclaration> fieldDeclarations = new ArrayList<>();
         fieldDeclarations.add(generatePrimaryKey());
-        fieldDeclarations.add(createdAtField());
-        fieldDeclarations.add(updatedAtField());
+        if (((JavaDAOTypeDescription) type).isStoreCreatedDate()) fieldDeclarations.add(createdAtField());
+        if (((JavaDAOTypeDescription) type).isStoreUpdatedDate()) fieldDeclarations.add(updatedAtField());
         type.getFields().forEach(field -> {
             fieldDeclarations.add(//
                     JavaFieldDeclaration.builder()//
@@ -132,34 +141,39 @@ public final class SpringDAOGenerator extends SpringTypeGenerator {
                 annotations.add(JavaAnnotation.builder()//
                         .name("javax.persistence." + relationDescription.getType().toString())//
                         .build());
+                List<JavaAnnotation.Attribute> attributes = new ArrayList<>();
+                if (field.isUnique())
+                    attributes.add(JavaAnnotation.Attribute.builder()//
+                            .name("unique")//
+                            .type(Boolean.class)//
+                            .values(List.of("true"))//
+                            .build());
+                if (!field.isNullable())
+                    attributes.add(JavaAnnotation.Attribute.builder()//
+                            .name("nullable")//
+                            .type(Boolean.class)//
+                            .values(List.of("false"))//
+                            .build());
+                if (!field.isUpdatable())
+                    attributes.add(JavaAnnotation.Attribute.builder()//
+                            .name("updatable")//
+                            .type(Boolean.class)//
+                            .values(List.of("false"))//
+                            .build());
+                attributes.addAll(List.of(//
+                        JavaAnnotation.Attribute.builder()//
+                                .name("name")//
+                                .type(String.class)//
+                                .values(List.of(field.getName().concat("_id")))//
+                                .build(),//
+                        JavaAnnotation.Attribute.builder()//
+                                .name("referencedColumnName")//
+                                .type(String.class)//
+                                .values(List.of("id"))//
+                                .build()));
                 annotations.add(JavaAnnotation.builder()//
                         .name("javax.persistence.JoinColumn")//
-                        .attributes(List.of(//
-                                JavaAnnotation.Attribute.builder()//
-                                        .name("name")//
-                                        .type(String.class)//
-                                        .values(List.of(field.getName().concat("_id")))//
-                                        .build(),//
-                                JavaAnnotation.Attribute.builder()//
-                                        .name("referencedColumnName")//
-                                        .type(String.class)//
-                                        .values(List.of("id"))//
-                                        .build(),//
-                                JavaAnnotation.Attribute.builder()//
-                                        .name("nullable")//
-                                        .type(Boolean.class)//
-                                        .values(List.of(field.isNullable() ? "true" : "false"))//
-                                        .build(),//
-                                JavaAnnotation.Attribute.builder()//
-                                        .name("updatable")//
-                                        .type(Boolean.class)//
-                                        .values(List.of(field.isUpdatable() ? "true" : "false"))//
-                                        .build(),//
-                                JavaAnnotation.Attribute.builder()//
-                                        .name("unique")//
-                                        .type(Boolean.class)//
-                                        .values(List.of(field.isUnique() ? "true" : "false"))//
-                                        .build()))//
+                        .attributes(attributes)//
                         .build());
             } else {
                 annotations.add(JavaAnnotation.builder()//
@@ -179,45 +193,47 @@ public final class SpringDAOGenerator extends SpringTypeGenerator {
                                         .values(List.of("org.hibernate.annotations.CascadeType.ALL"))//
                                         .build()))//
                         .build());
+                List<JavaAnnotation.Attribute> attributes = new ArrayList<>();
+                if (field.isUnique())
+                    attributes.add(JavaAnnotation.Attribute.builder()//
+                            .name("unique")//
+                            .type(Boolean.class)//
+                            .values(List.of("true"))//
+                            .build());
+                if (!field.isNullable())
+                    attributes.add(JavaAnnotation.Attribute.builder()//
+                            .name("nullable")//
+                            .type(Boolean.class)//
+                            .values(List.of("false"))//
+                            .build());
+                if (!field.isUpdatable())
+                    attributes.add(JavaAnnotation.Attribute.builder()//
+                            .name("updatable")//
+                            .type(Boolean.class)//
+                            .values(List.of("false"))//
+                            .build());
                 annotations.add(JavaAnnotation.builder()//
                         .name("javax.persistence.Column")//
-                        .attributes(List.of(//
-                                JavaAnnotation.Attribute.builder()//
-                                        .name("nullable")//
-                                        .type(Boolean.class)//
-                                        .values(List.of(field.isNullable() ? "true" : "false"))//
-                                        .build(),//
-                                JavaAnnotation.Attribute.builder()//
-                                        .name("updatable")//
-                                        .type(Boolean.class)//
-                                        .values(List.of(field.isUpdatable() ? "true" : "false"))//
-                                        .build(),//
-                                JavaAnnotation.Attribute.builder()//
-                                        .name("unique")//
-                                        .type(Boolean.class)//
-                                        .values(List.of(field.isUnique() ? "true" : "false"))//
-                                        .build()))//
+                        .attributes(attributes)//
                         .build());
             }
         } else {
+            List<JavaAnnotation.Attribute> attributes = new ArrayList<>();
+            if (field.isUnique())
+                attributes.add(JavaAnnotation.Attribute.builder()//
+                        .name("unique")//
+                        .type(Boolean.class)//
+                        .values(List.of("true"))//
+                        .build());
+            if (!field.isNullable())
+                attributes.add(JavaAnnotation.Attribute.builder()//
+                        .name("nullable")//
+                        .type(Boolean.class)//
+                        .values(List.of("false"))//
+                        .build());
             annotations.add(JavaAnnotation.builder()//
                     .name("javax.persistence.Column")//
-                    .attributes(List.of(//
-                            JavaAnnotation.Attribute.builder()//
-                                    .name("nullable")//
-                                    .type(Boolean.class)//
-                                    .values(List.of(field.isNullable() ? "true" : "false"))//
-                                    .build(),//
-                            JavaAnnotation.Attribute.builder()//
-                                    .name("updatable")//
-                                    .type(Boolean.class)//
-                                    .values(List.of(field.isUpdatable() ? "true" : "false"))//
-                                    .build(),//
-                            JavaAnnotation.Attribute.builder()//
-                                    .name("unique")//
-                                    .type(Boolean.class)//
-                                    .values(List.of(field.isUnique() ? "true" : "false"))//
-                                    .build()))//
+                    .attributes(attributes)//
                     .build());
         }
         if (field.isExcludeFromJson()) {
