@@ -1,9 +1,6 @@
 package solutions.thex.smoothy.core.description.java.type;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import solutions.thex.smoothy.core.description.java.JavaTypeDescription;
 
@@ -14,8 +11,10 @@ import solutions.thex.smoothy.core.description.java.JavaTypeDescription;
 @NoArgsConstructor
 public final class JavaRepositoryTypeDescription extends JavaTypeDescription {
 
-    private boolean dataRestRepository;
-    private boolean crossOrigin;
+    @Builder.Default
+    private boolean dataRestRepository = false;
+    @Builder.Default
+    private boolean crossOrigin = false;
     private JavaRepositoryProvider provider;
 
     public enum JavaRepositoryProvider {
