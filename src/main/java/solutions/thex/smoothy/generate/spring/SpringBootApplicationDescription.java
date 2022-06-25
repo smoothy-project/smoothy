@@ -33,7 +33,8 @@ public class SpringBootApplicationDescription implements Application {
             property = "type",//
             visible = true)
     @JsonSubTypes({
-            @JsonSubTypes.Type(value = JavaDAOTypeDescription.class, name = "DAO")
+            @JsonSubTypes.Type(value = JavaDAOTypeDescription.class, name = "DAO"),
+            @JsonSubTypes.Type(value = JavaRepositoryTypeDescription.class, name = "REPOSITORY")
     }
     )
     private List<JavaTypeDescription> types;
