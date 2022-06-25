@@ -1,14 +1,17 @@
 package solutions.thex.smoothy.generate.spring;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import solutions.thex.smoothy.generate.Application;
 import solutions.thex.smoothy.core.description.java.JavaTypeDescription;
+import solutions.thex.smoothy.core.description.java.type.JavaDAOTypeDescription;
+import solutions.thex.smoothy.core.description.java.type.JavaRepositoryTypeDescription;
+import solutions.thex.smoothy.generate.Application;
 
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -26,8 +29,14 @@ public class SpringBootApplicationDescription implements Application {
     private String springVersion = "2.6.6";
     @Builder.Default
     private String port = "8080";
-    @Builder.Default
-    private List<JavaTypeDescription> types = new ArrayList<>();
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,//
+            property = "type",//
+            visible = true)
+    @JsonSubTypes({
+            @JsonSubTypes.Type(value = JavaDAOTypeDescription.class, name = "DAO")
+    }
+    )
+    private List<JavaTypeDescription> types;
 
     @Override
     public void generate(OutputStream out) {
